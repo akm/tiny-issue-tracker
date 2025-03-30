@@ -52,7 +52,7 @@
 	const toggleDrawer = () => {
 		drawerHidden = false;
 	};
-	let activeUrl = $derived(() => page.url.pathname);
+	// let activeUrl = $derived(() => page.url.pathname);
 	let spanClass = 'pl-2 self-center text-md text-gray-900 whitespace-nowrap dark:text-white';
 	let divClass = 'w-full ml-auto lg:block lg:w-auto order-1 lg:order-none';
 	let ulClass =
@@ -112,7 +112,7 @@
 	<Sidebar asideClass="w-54">
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
-				<SidebarItem label="Home" href="/" on:click={toggleSide} active={activeUrl === `/`} />
+				<SidebarItem label="Home" href="/" on:click={toggleSide} />
 				{#each page.data.pages as { meta, path }}
 					<SidebarItem
 						label={meta.title}
@@ -120,7 +120,6 @@
 						{spanClass}
 						activeClass="flex items-center p-2 text-base font-normal text-gray-900 bg-primary-200 dark:bg-primary-700 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700"
 						on:click={toggleSide}
-						active={activeUrl === `/pages/${path}`}
 					/>
 				{/each}
 				<SidebarDropdownWrapper label="Articles">
@@ -131,7 +130,6 @@
 							{spanClass}
 							activeClass="flex items-center p-2 text-base font-normal text-gray-900 bg-primary-200 dark:bg-primary-700 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700"
 							on:click={toggleSide}
-							active={activeUrl === `/blog/${path}`}
 						/>
 					{/each}
 				</SidebarDropdownWrapper>
