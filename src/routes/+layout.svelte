@@ -113,7 +113,7 @@
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
 				<SidebarItem label="Home" href="/" on:click={toggleSide} active={activeUrl === `/`} />
-				{#each data.pages as { meta, path }}
+				{#each page.data.pages as { meta, path }}
 					<SidebarItem
 						label={meta.title}
 						href={`/pages/${path}`}
@@ -124,7 +124,7 @@
 					/>
 				{/each}
 				<SidebarDropdownWrapper label="Articles">
-					{#each data.articles as { meta, path }}
+					{#each page.data.articles as { meta, path }}
 						<SidebarItem
 							label={meta.title}
 							href={`/blog/${path}`}
