@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
-
+	import { page } from '$app/state';
+	import { onMount } from 'svelte';
 	import {
 		DarkMode,
 		Navbar,
@@ -26,27 +27,27 @@
 		duration: 200,
 		easing: sineIn
 	};
-	export let data: PageData;
 
 	let breakPoint: number = 1024;
 	let width: number;
 	let backdrop: boolean = false;
-	let activateClickOutside = true;
-	let drawerHidden: boolean = false;
-	$: if (width >= breakPoint) {
-		drawerHidden = false;
-		activateClickOutside = false;
-	} else {
-		drawerHidden = true;
-		activateClickOutside = true;
-	}
+
+
+	let drawerHidden = $state(false);
+	let activateClickOutside = $derived(() => {
+		if (width >= breakPoint) {
+			return false;
+		} else {
+			return true;
+		}
+	});
+
+
 	onMount(() => {
 		if (width >= breakPoint) {
 			drawerHidden = false;
-			activateClickOutside = false;
 		} else {
 			drawerHidden = true;
-			activateClickOutside = true;
 		}
 	});
 	const toggleSide = () => {
@@ -57,7 +58,7 @@
 	const toggleDrawer = () => {
 		drawerHidden = false;
 	};
-	$: activeUrl = $page.url.pathname;
+	let activeUrl = $derived(() => page.url.pathname);
 	let spanClass = 'pl-2 self-center text-md text-gray-900 whitespace-nowrap dark:text-white';
 	let divClass = 'w-full ml-auto lg:block lg:w-auto order-1 lg:order-none';
 	let ulClass =
@@ -66,6 +67,7 @@
 		'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 divide-gray-200 dark:divide-gray-700 flex items-center justify-between w-full mx-auto py-1.5 px-4';
 </script>
 
+<svelte:window bind:innerWidth={width} />
 <header class="flex-none w-full mx-auto bg-white dark:bg-slate-950">
 	<Navbar let:hidden let:toggle>
 		<NavHamburger
