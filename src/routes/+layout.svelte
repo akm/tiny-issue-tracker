@@ -72,7 +72,7 @@
 	<Navbar let:hidden let:toggle>
 		<NavHamburger
 			on:click={toggleDrawer}
-			btnClass="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden"
+			class="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden"
 		/>
 		<NavBrand href="/" class="lg:ml-64">
 			<Cog />
@@ -100,7 +100,7 @@
 		<div class="flex items-center ml-auto">
 			<DarkMode class="inline-block dark:hover:text-white hover:text-gray-900" />
 		</div>
-		<NavHamburger on:click={toggle} btnClass="lg:hidden" />
+		<NavHamburger on:click={toggle} class="lg:hidden" />
 	</Navbar>
 </header>
 
