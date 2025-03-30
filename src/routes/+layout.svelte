@@ -34,7 +34,7 @@
 
 
 	let drawerHidden = $derived(width < breakPoint);
-	let activateClickOutside = $derived(width > breakPoint);
+	let activateClickOutside = $derived(width < breakPoint);
 
 	onMount(() => {
 		drawerHidden = width < breakPoint;
