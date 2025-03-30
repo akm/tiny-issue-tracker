@@ -37,19 +37,18 @@
 	let activateClickOutside = $derived(width > breakPoint);
 
 	onMount(() => {
-		if (width >= breakPoint) {
-			drawerHidden = false;
-		} else {
-			drawerHidden = true;
-		}
+		drawerHidden = width < breakPoint;
 	});
 	const toggleSide = () => {
 		if (width < breakPoint) {
 			drawerHidden = !drawerHidden;
 		}
 	};
-	const toggleDrawer = () => {
+	const showDrawer = () => {
 		drawerHidden = false;
+	};
+	const hideDrawer = () => {
+		drawerHidden = true;	
 	};
 	let activeUrl = $derived(page.url.pathname);
 	let spanClass = 'pl-2 self-center text-md text-gray-900 whitespace-nowrap dark:text-white';
@@ -64,7 +63,7 @@
 <header class="flex-none w-full mx-auto bg-white dark:bg-slate-950">
 	<Navbar let:hidden let:toggle>
 		<NavHamburger
-			on:click={toggleDrawer}
+			on:click={showDrawer}
 			class="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden"
 		/>
 		<NavBrand href="/" class="lg:ml-64">
@@ -106,7 +105,7 @@
 	id="sidebar"
 >
 	<div class="flex items-center">
-		<CloseButton on:click={() => (drawerHidden = true)} class="mb-4 dark:text-white lg:hidden" />
+		<CloseButton on:click={hideDrawer} class="mb-4 dark:text-white lg:hidden" />
 	</div>
 	<Sidebar asideClass="w-54" {activeUrl}>
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
