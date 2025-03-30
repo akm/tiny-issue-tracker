@@ -53,11 +53,11 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 }
 
 export async function invalidateSession(sessionId: string): Promise<void> {
-	// TODO
+	await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 }
 
 export async function invalidateAllSessions(userId: number): Promise<void> {
-	// TODO
+	await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
 }
 
 export type SessionValidationResult =
