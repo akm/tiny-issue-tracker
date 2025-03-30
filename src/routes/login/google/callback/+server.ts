@@ -1,5 +1,6 @@
 import { setSessionTokenCookie } from '$lib/server/session';
 import { generateSessionToken, createSession } from '$lib/server/db/session';
+import { getUserFromGoogleId, createUser } from '$lib/server/db/user';
 import { google } from '$lib/server/oauth';
 import { decodeIdToken } from 'arctic';
 
@@ -25,7 +26,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	let tokens: OAuth2Tokens;
 	try {
 		tokens = await google.validateAuthorizationCode(code, codeVerifier);
-	} catch (e) {
+	} catch {
 		// Invalid code or client credentials
 		return new Response(null, {
 			status: 400
