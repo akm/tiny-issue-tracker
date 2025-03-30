@@ -51,7 +51,7 @@
 	const toggleDrawer = () => {
 		drawerHidden = false;
 	};
-	// let activeUrl = $derived(() => page.url.pathname);
+	let activeUrl = $derived(page.url.pathname);
 	let spanClass = 'pl-2 self-center text-md text-gray-900 whitespace-nowrap dark:text-white';
 	let divClass = 'w-full ml-auto lg:block lg:w-auto order-1 lg:order-none';
 	let ulClass =
@@ -73,7 +73,7 @@
 				My Website
 			</span>
 		</NavBrand>
-		<NavUl
+		<NavUl {activeUrl}
 			{hidden}
 			{divClass}
 			{ulClass}
@@ -108,7 +108,7 @@
 	<div class="flex items-center">
 		<CloseButton on:click={() => (drawerHidden = true)} class="mb-4 dark:text-white lg:hidden" />
 	</div>
-	<Sidebar asideClass="w-54">
+	<Sidebar asideClass="w-54" {activeUrl}>
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
 				<SidebarItem label="Home" href="/" on:click={toggleSide} />
