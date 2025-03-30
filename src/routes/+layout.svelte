@@ -29,18 +29,12 @@
 	};
 
 	let breakPoint: number = 1024;
-	let width: number;
+	let width: number = $state(0);
 	let backdrop: boolean = false;
 
 
 	let drawerHidden = $state(false);
-	let activateClickOutside = $derived(() => {
-		if (width >= breakPoint) {
-			return false;
-		} else {
-			return true;
-		}
-	});
+	let activateClickOutside = $derived(width > breakPoint);
 
 
 	onMount(() => {
