@@ -4,7 +4,9 @@ import { validateSessionToken } from './lib/server/db/session';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
+	// console.log('Handling request:', event.request.method, event.request.url);
 	const token = event.cookies.get('session') ?? null;
+	// console.log('Handling request with token:', token);
 	if (token === null) {
 		event.locals.user = null;
 		event.locals.session = null;
@@ -20,5 +22,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.session = session;
 	event.locals.user = user;
+	// console.log('Handling request event', { event });
 	return resolve(event);
 };
