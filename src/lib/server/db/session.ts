@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
 
-import { userTable, sessionTable } from './schema';
+import { users, sessionTable } from './schema';
 import { db } from './db';
 import type { User } from './user';
 import type { InferSelectModel } from 'drizzle-orm';
@@ -31,9 +31,9 @@ export async function createSession(token: string, userId: number): Promise<Sess
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const result = await db
-		.select({ user: userTable, session: sessionTable })
+		.select({ user: users, session: sessionTable })
 		.from(sessionTable)
-		.innerJoin(userTable, eq(sessionTable.userId, userTable.id))
+		.innerJoin(users, eq(sessionTable.userId, users.id))
 		.where(eq(sessionTable.id, sessionId));
 	if (result.length < 1) {
 		return { session: null, user: null };

@@ -1,10 +1,10 @@
 import { eq } from 'drizzle-orm';
 
-import { userTable } from './schema';
+import { users } from './schema';
 import { db } from './db';
 import type { InferSelectModel } from 'drizzle-orm';
 
-export type User = InferSelectModel<typeof userTable>;
+export type User = InferSelectModel<typeof users>;
 
 export async function createUser(
 	googleUserId: string,
@@ -21,17 +21,13 @@ export async function createUser(
 		name: username,
 		email: email
 	};
-	const r = await db.insert(userTable).values(user);
+	const r = await db.insert(users).values(user);
 	user.id = r[0].insertId;
 	return user;
 }
 
 export async function getUserFromGoogleId(googleUserId: string): Promise<User | null> {
 	// Check if the user already exists in the database
-	const result = await db
-		.select()
-		.from(userTable)
-		.where(eq(userTable.googleId, googleUserId))
-		.limit(1);
+	const result = await db.select().from(users).where(eq(users.googleId, googleUserId)).limit(1);
 	return result.length > 0 ? result[0] : null;
 }
