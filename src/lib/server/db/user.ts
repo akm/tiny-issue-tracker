@@ -1,8 +1,10 @@
 import { eq } from 'drizzle-orm';
 
-import type { User } from './schema';
 import { userTable } from './schema';
 import { db } from './index';
+import type { InferSelectModel } from 'drizzle-orm';
+
+export type User = InferSelectModel<typeof userTable>;
 
 export async function createUser(googleUserId: string, username: string): Promise<User> {
 	const existingUser = await getUserFromGoogleId(googleUserId);

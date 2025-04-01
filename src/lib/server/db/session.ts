@@ -3,9 +3,12 @@ import { eq } from 'drizzle-orm';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
 
-import type { User, Session } from './schema';
 import { userTable, sessionTable } from './schema';
 import { db } from './index';
+import type { User } from './user';
+import type { InferSelectModel } from 'drizzle-orm';
+
+export type Session = InferSelectModel<typeof sessionTable>;
 
 export function generateSessionToken(): string {
 	const bytes = new Uint8Array(20);
