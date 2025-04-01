@@ -32,9 +32,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			status: 400
 		});
 	}
-	const claims = decodeIdToken(tokens.idToken()) as { sub: string; name: string };
+	const claims = decodeIdToken(tokens.idToken()) as { sub: string; name: string; email: string };
+	console.log('Claims:', claims);
 	const googleUserId = claims.sub;
 	const username = claims.name;
+	const email = claims.email;
 
 	// TODO: Replace this with your own DB query.
 	const existingUser = await getUserFromGoogleId(googleUserId);
@@ -52,7 +54,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	}
 
 	// TODO: Replace this with your own DB query.
-	const user = await createUser(googleUserId, username);
+	const user = await createUser(googleUserId, username, email);
 
 	const sessionToken = generateSessionToken();
 	const session = await createSession(sessionToken, user.id);
