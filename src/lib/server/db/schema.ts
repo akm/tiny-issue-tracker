@@ -3,7 +3,8 @@ import { mysqlTable, int, varchar, datetime } from 'drizzle-orm/mysql-core';
 export const userTable = mysqlTable('users', {
 	id: int('id').primaryKey().autoincrement(),
 	googleId: varchar('google_id', { length: 255 }).notNull().unique(),
-	name: varchar('name', { length: 255 }).notNull()
+	name: varchar('name', { length: 255 }).notNull(),
+	email: varchar('email', { length: 255 }).notNull()
 });
 
 export const sessionTable = mysqlTable('sessions', {
