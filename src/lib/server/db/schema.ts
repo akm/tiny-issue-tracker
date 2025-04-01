@@ -7,7 +7,7 @@ export const users = mysqlTable('users', {
 	email: varchar('email', { length: 255 }).notNull()
 });
 
-export const sessionTable = mysqlTable('sessions', {
+export const sessions = mysqlTable('sessions', {
 	id: varchar('id', {
 		length: 255
 	}).primaryKey(),
