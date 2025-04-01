@@ -6,7 +6,11 @@ import type { InferSelectModel } from 'drizzle-orm';
 
 export type User = InferSelectModel<typeof userTable>;
 
-export async function createUser(googleUserId: string, username: string): Promise<User> {
+export async function createUser(
+	googleUserId: string,
+	username: string,
+	email: string
+): Promise<User> {
 	const existingUser = await getUserFromGoogleId(googleUserId);
 	if (existingUser) {
 		return existingUser;
@@ -14,7 +18,8 @@ export async function createUser(googleUserId: string, username: string): Promis
 	const user: User = {
 		id: 0, // Assuming the ID is auto-incremented by the database
 		googleId: googleUserId,
-		name: username
+		name: username,
+		email: email
 	};
 	const r = await db.insert(userTable).values(user);
 	user.id = r[0].insertId;
