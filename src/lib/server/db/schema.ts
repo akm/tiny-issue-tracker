@@ -12,6 +12,6 @@ export const sessionTable = mysqlTable('sessions', {
 	}).primaryKey(),
 	userId: int('user_id')
 		.notNull()
-		.references(() => userTable.id),
+		.references(() => userTable.id, { onDelete: 'cascade' }),
 	expiresAt: datetime('expires_at').notNull()
 });
