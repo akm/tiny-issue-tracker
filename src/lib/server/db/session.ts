@@ -4,7 +4,7 @@ import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/enco
 import { sha256 } from '@oslojs/crypto/sha2';
 
 import { userTable, sessionTable } from './schema';
-import { db } from './index';
+import { db } from './db';
 import type { User } from './user';
 import type { InferSelectModel } from 'drizzle-orm';
 

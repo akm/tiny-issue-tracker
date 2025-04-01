@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 
 import { userTable } from './schema';
-import { db } from './index';
+import { db } from './db';
 import type { InferSelectModel } from 'drizzle-orm';
 
 export type User = InferSelectModel<typeof userTable>;
