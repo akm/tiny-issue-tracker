@@ -27,5 +27,6 @@ export const load: PageServerLoad = async ({ url }) => {
 				order === 'desc' ? b.email.localeCompare(a.email) : a.email.localeCompare(b.email)
 			);
 	}
+	console.log('Sorted items:', items);
 	return { items };
 };

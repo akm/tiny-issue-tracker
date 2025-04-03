@@ -1,18 +1,32 @@
  <script >
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
 	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 
     let items = page.data.items;
 
+    let idSortDirection = $state(null);
+    let nameSortDirection = $state(null);
+    let emailSortDirection = $state(null);
+
     // sort の表示のみ使うのでダミーのソート関数を利用
     const sort = () => 0;
+    const headCellClick = (e) => {
+        if (idSortDirection) {
+            goto("?sort=id&order="+idSortDirection);
+        } else if (nameSortDirection) {
+            goto("?sort=name&order="+nameSortDirection);
+        } else if (emailSortDirection) {
+            goto("?sort=email&order="+emailSortDirection);
+        }
+    };
 </script>
 
 <Table hoverable={true} {items}>
     <TableHead>
-        <TableHeadCell {sort}>ID</TableHeadCell>
-        <TableHeadCell {sort} defaultSort>Name</TableHeadCell>
-        <TableHeadCell {sort}>Email</TableHeadCell>
+        <TableHeadCell {sort} on:click={headCellClick} bind:direction={idSortDirection}>ID</TableHeadCell>
+        <TableHeadCell {sort} on:click={headCellClick} bind:direction={nameSortDirection} defaultSort>Name</TableHeadCell>
+        <TableHeadCell {sort} on:click={headCellClick} bind:direction={emailSortDirection}>Email</TableHeadCell>
         <TableHeadCell>
         <span class="sr-only">Buy</span>
         </TableHeadCell>
