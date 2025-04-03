@@ -9,24 +9,25 @@ const items = [
 
 export const load: PageServerLoad = async ({ url }) => {
 	console.log('users/+page.server.ts load function', { url });
-	const order = url.searchParams.get('order');
-	switch (url.searchParams.get('sort')) {
+	const orderBy = url.searchParams.get('orderBy');
+	const orderDirection = url.searchParams.get('orderDirection');
+	switch (orderBy) {
 		case 'id':
 			console.log('Sorting by id');
-			items.sort((a, b) => (order === 'desc' ? b.id - a.id : a.id - b.id));
+			items.sort((a, b) => (orderDirection === 'desc' ? b.id - a.id : a.id - b.id));
 			break;
 		case 'name':
 			console.log('Sorting by name');
 			items.sort((a, b) =>
-				order === 'desc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name)
+				orderDirection === 'desc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name)
 			);
 			break;
 		case 'email':
 			console.log('Sorting by email');
 			items.sort((a, b) =>
-				order === 'desc' ? b.email.localeCompare(a.email) : a.email.localeCompare(b.email)
+				orderDirection === 'desc' ? b.email.localeCompare(a.email) : a.email.localeCompare(b.email)
 			);
 	}
-	console.log('Sorted items:', items);
-	return { items };
+	console.log('ordered:', { items, orderBy, orderDirection });
+	return { items, orderBy, orderDirection };
 };
