@@ -1,11 +1,8 @@
  <script >
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
-    let items = [
-        { id: 1, name: 'Toyota', email: 'ABC'},
-        { id: 2, name: 'Ford', email: 'CDE' },
-        { id: 3, name: 'Volvo', email: 'FGH' },
-        { id: 4, name: 'Saab', email: 'IJK' }
-    ];
+	import { page } from '$app/state';
+
+    let items = page.data.items;
 </script>
 
 <Table hoverable={true} {items}>
