@@ -8,7 +8,7 @@ const items = [
 ];
 
 export const load: PageServerLoad = async ({ url }) => {
-	console.log('users/+page.server.ts load function', { url });
+	// console.log('users/+page.server.ts load function', { url });
 	const orderBy = url.searchParams.get('orderBy') || 'id';
 	const orderDirection = url.searchParams.get('orderDirection') || 'asc';
 	switch (orderBy) {
