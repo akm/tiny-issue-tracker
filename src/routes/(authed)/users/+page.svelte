@@ -1,22 +1,22 @@
  <script >
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
 
-    let items = page.data.items;
+    let items = $state(page.data.items);
     const orderBy = page.data.orderBy;
     const orderDirection = page.data.orderDirection;
 
-    const onClickTableHeadCell = (col) => () => {
+    const tableHeadLinkSearchParams = (col) => {
+        const searchParams = new URLSearchParams();
+        searchParams.set("orderBy", col);
         if (col === orderBy) {
-            if (orderDirection === "asc") {
-                goto("?sort="+col+"&order=desc");
-            } else {
-                goto("?sort="+col+"&order=asc");
-            }
+            searchParams.set("orderDirection", orderDirection === "asc" ? "desc" : "asc");
         } else {
-            goto("?sort="+col+"&order=asc");
+            searchParams.set("orderDirection", "asc");
         }
-    };
+        return "/users?" + searchParams.toString();
+    }
+
+    console.log("items", {items});
 </script>
 
 
