@@ -3,13 +3,16 @@
 	import { page } from '$app/state';
 
     let items = page.data.items;
+
+    // sort の表示のみ使うのでダミーのソート関数を利用
+    const sort = () => 0;
 </script>
 
 <Table hoverable={true} {items}>
     <TableHead>
-        <TableHeadCell sort={(a, b) => a.id - b.id}>ID</TableHeadCell>
-        <TableHeadCell sort={(a, b) => a.name.localeCompare(b.maker)} defaultSort>Name</TableHeadCell>
-        <TableHeadCell sort={(a, b) => a.email.localeCompare(b.type)}>Email</TableHeadCell>
+        <TableHeadCell {sort}>ID</TableHeadCell>
+        <TableHeadCell {sort} defaultSort>Name</TableHeadCell>
+        <TableHeadCell {sort}>Email</TableHeadCell>
         <TableHeadCell>
         <span class="sr-only">Buy</span>
         </TableHeadCell>
