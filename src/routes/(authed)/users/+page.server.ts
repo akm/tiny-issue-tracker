@@ -1,5 +1,5 @@
 import { listUsers } from '$lib/server/db/user';
-import { assertWithDefault } from '$lib/strings';
+import { assertWithDefault } from '$lib/union';
 import type { PageServerLoad } from './$types';
 
 const columnNames = ['id', 'name', 'email'] as const;

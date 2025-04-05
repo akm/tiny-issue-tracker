@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { assertWithDefault } from './strings';
+import { assertWithDefault } from './union';
 
 describe('assertWithDefault', () => {
 	it('should return the first allowed value if input is null or undefined and no default is provided', () => {
