@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { eq, desc, asc } from 'drizzle-orm';
 
 import { users } from './schema';
 import { db } from './db';
@@ -30,4 +30,13 @@ export async function getUserFromGoogleId(googleUserId: string): Promise<User | 
 	// Check if the user already exists in the database
 	const result = await db.select().from(users).where(eq(users.googleId, googleUserId)).limit(1);
 	return result.length > 0 ? result[0] : null;
+}
+
+export async function listUsers(
+	orderBy: 'id' | 'name' | 'email',
+	orderDirection: 'asc' | 'desc'
+): Promise<User[]> {
+	const orderByCol = orderBy === 'id' ? users.id : orderBy === 'name' ? users.name : users.email;
+	const direction = orderDirection === 'asc' ? asc : desc;
+	return await db.query.users.findMany({ orderBy: direction(orderByCol) });
 }

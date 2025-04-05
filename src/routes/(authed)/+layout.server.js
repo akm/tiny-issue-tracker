@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
 export const load = async (event) => {
-	console.log('Loading layout for authed route', { event });
+	// console.log('Loading layout for authed route', { event });
 	if (!event.locals || !event.locals.user) {
 		return redirect(303, '/login');
 	}
