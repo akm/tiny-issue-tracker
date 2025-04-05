@@ -1,33 +1,22 @@
+import { listUsers } from '$lib/server/db/user';
+import { assertWithDefault } from '$lib/strings';
 import type { PageServerLoad } from './$types';
 
-const items = [
-	{ id: 1, name: 'Toyota', email: 'ABC' },
-	{ id: 2, name: 'Ford', email: 'CDE' },
-	{ id: 3, name: 'Volvo', email: 'FGH' },
-	{ id: 4, name: 'Saab', email: 'IJK' }
-];
+const columnNames = ['id', 'name', 'email'] as const;
+type ColumnName = (typeof columnNames)[number];
+
+const orderDirections = ['asc', 'desc'] as const;
+type OrderDirection = (typeof orderDirections)[number];
 
 export const load: PageServerLoad = async ({ url }) => {
 	// console.log('users/+page.server.ts load function', { url });
-	const orderBy = url.searchParams.get('orderBy') || 'id';
-	const orderDirection = url.searchParams.get('orderDirection') || 'asc';
-	switch (orderBy) {
-		case 'id':
-			console.log('Sorting by id');
-			items.sort((a, b) => (orderDirection === 'desc' ? b.id - a.id : a.id - b.id));
-			break;
-		case 'name':
-			console.log('Sorting by name');
-			items.sort((a, b) =>
-				orderDirection === 'desc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name)
-			);
-			break;
-		case 'email':
-			console.log('Sorting by email');
-			items.sort((a, b) =>
-				orderDirection === 'desc' ? b.email.localeCompare(a.email) : a.email.localeCompare(b.email)
-			);
-	}
+	const orderBy = assertWithDefault<ColumnName>(url.searchParams.get('orderBy'), columnNames);
+	const orderDirection = assertWithDefault<OrderDirection>(
+		url.searchParams.get('orderDirection'),
+		orderDirections
+	);
+	const items = await listUsers(orderBy, orderDirection);
+
 	console.log('ordered:', { items, orderBy, orderDirection });
 	return { items, orderBy, orderDirection };
 };
