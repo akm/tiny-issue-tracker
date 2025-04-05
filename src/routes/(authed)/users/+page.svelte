@@ -1,10 +1,10 @@
  <script>
-	import { goto, invalidate } from '$app/navigation';
+	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 
-    let items = page.data.items;
-    const orderBy = page.data.orderBy;
-    const orderDirection = page.data.orderDirection;
+    let items = $derived(page.data.items);
+    let orderBy = $derived(page.data.orderBy);
+    let orderDirection = $derived(page.data.orderDirection);
 
     const tableHeadLinkSearchParams = (col) => {
         const searchParams = new URLSearchParams();
@@ -18,13 +18,11 @@
         const href = tableHeadLinkSearchParams(col);
         return (event) => {
             console.log("tableHeadLinkClick", {event});
-            // event.preventDefault();
-            // goto(href);
-            window.location = href;
+            invalidate(href);
         };
     };
 
-    console.log("items", {items});
+    // console.log("items", {items});
 </script>
 
 
