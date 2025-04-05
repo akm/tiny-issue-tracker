@@ -9,11 +9,9 @@
     const tableHeadLinkSearchParams = (col) => {
         const searchParams = new URLSearchParams();
         searchParams.set("orderBy", col);
-        if (col === orderBy) {
-            searchParams.set("orderDirection", orderDirection === "asc" ? "desc" : "asc");
-        } else {
-            searchParams.set("orderDirection", "asc");
-        }
+        const nextDirection = (col === orderBy) ? (orderDirection === "asc" ? "desc" : "asc") : "asc";
+        searchParams.set("orderDirection", nextDirection);
+        console.log("tableHeadLinkSearchParams1", {col, orderBy, orderDirection, nextDirection});
         return "?" + searchParams.toString();
     }
     const tableHeadLinkClick = (col) => {
