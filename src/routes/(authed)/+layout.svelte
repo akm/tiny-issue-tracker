@@ -18,15 +18,15 @@
 		SidebarDropdownWrapper
 	} from 'flowbite-svelte';
 	import { Cog } from 'svelte-heros-v2';
-	import { sineIn } from 'svelte/easing';
+	// import { sineIn } from 'svelte/easing';
 
 	let { children } = $props();
 
-	let transitionParams = {
-		x: -320,
-		duration: 200,
-		easing: sineIn
-	};
+	// let transitionParams = {
+	// 	x: -320,
+	// 	duration: 200,
+	// 	easing: sineIn
+	// };
 
 	let breakPoint: number = 1024;
 	let width: number = $state(0);
@@ -97,7 +97,6 @@
 <Drawer
 	transitionType="fly"
 	{backdrop}
-	{transitionParams}
 	bind:hidden={drawerHidden}
 	bind:activateClickOutside
 	width="w-64"
