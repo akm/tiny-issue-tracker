@@ -1,6 +1,6 @@
-export const assertUnion = <S, T extends S>(
-	value: string | null | undefined,
-	allowedValues: readonly S[],
+export const assertUnion = <R, S extends NonNullable<R>, T extends S>(
+	value: R | null | undefined,
+	allowedValues: readonly NonNullable<S>[],
 	defaultValue?: T
 ): T => {
 	if (allowedValues.length === 0) {

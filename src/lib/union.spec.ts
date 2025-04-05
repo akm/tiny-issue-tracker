@@ -3,13 +3,15 @@ import { assertUnion } from './union';
 
 describe('assertUnion', () => {
 	it('should return the first allowed value if input is null or undefined and no default is provided', () => {
-		expect(assertUnion(null, ['a', 'b', 'c'])).toBe('a');
-		expect(assertUnion(undefined, ['a', 'b', 'c'])).toBe('a');
+		const values: (string | null | undefined)[] = [null, undefined];
+		expect(assertUnion(values[0], ['a', 'b', 'c'])).toBe('a');
+		expect(assertUnion(values[1], ['a', 'b', 'c'])).toBe('a');
 	});
 
 	it('should return the default value if input is null or undefined', () => {
-		expect(assertUnion(null, ['a', 'b', 'c'], 'b')).toBe('b');
-		expect(assertUnion(undefined, ['a', 'b', 'c'], 'b')).toBe('b');
+		const values: (string | null | undefined)[] = [null, undefined];
+		expect(assertUnion(values[0], ['a', 'b', 'c'], 'b')).toBe('b');
+		expect(assertUnion(values[1], ['a', 'b', 'c'], 'b')).toBe('b');
 	});
 
 	it('should return the input value if it is in the allowed list', () => {
