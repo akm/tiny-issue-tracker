@@ -1,6 +1,6 @@
-export const assertUnion = <T extends string>(
+export const assertUnion = <S, T extends S>(
 	value: string | null | undefined,
-	allows: readonly string[],
+	allows: readonly S[],
 	defaultValue?: T
 ): T => {
 	if (allows.length === 0) {
