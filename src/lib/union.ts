@@ -1,4 +1,4 @@
-export const assertWithDefault = <T extends string>(
+export const assertUnion = <T extends string>(
 	value: string | null | undefined,
 	allows: readonly string[],
 	defaultValue?: T
