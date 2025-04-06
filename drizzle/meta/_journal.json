@@ -29,6 +29,13 @@
       "when": 1743906791849,
       "tag": "0003_insert_dummy_to_organizations",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1743907259663,
+      "tag": "0004_add_coolumn_organization_id_to_users",
+      "breakpoints": true
     }
   ]
 }
