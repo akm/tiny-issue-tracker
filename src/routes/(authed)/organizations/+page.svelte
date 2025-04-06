@@ -79,12 +79,6 @@
                     Name
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Position
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Status
-                </th>
-                <th scope="col" class="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -104,14 +98,6 @@
                     </div>  
                 </th>
                 <td class="px-6 py-4">
-                    React Developer
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                    </div>
-                </td>
-                <td class="px-6 py-4">
                     <!-- Modal toggle -->
                     <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
                 </td>
@@ -129,14 +115,6 @@
                         <div class="font-normal text-gray-500">bonnie@flowbite.com</div>
                     </div>
                 </th>
-                <td class="px-6 py-4">
-                    Designer
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                    </div>
-                </td>
                 <td class="px-6 py-4">
                     <!-- Modal toggle -->
                     <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
@@ -156,14 +134,6 @@
                     </div>
                 </th>
                 <td class="px-6 py-4">
-                    Vue JS Developer
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                    </div>
-                </td>
-                <td class="px-6 py-4">
                     <!-- Modal toggle -->
                     <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
                 </td>
@@ -182,14 +152,6 @@
                     </div>
                 </th>
                 <td class="px-6 py-4">
-                    UI/UX Engineer
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                    </div>
-                </td>
-                <td class="px-6 py-4">
                     <!-- Modal toggle -->
                     <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
                 </td>
@@ -207,14 +169,6 @@
                         <div class="font-normal text-gray-500">leslie@flowbite.com</div>
                     </div>
                 </th>
-                <td class="px-6 py-4">
-                    SEO Specialist
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Offline
-                    </div>
-                </td>
                 <td class="px-6 py-4">
                     <!-- Modal toggle -->
                     <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
