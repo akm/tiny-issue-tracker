@@ -15,6 +15,13 @@
       "when": 1743521230037,
       "tag": "0001_nappy_rafael_vega",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1743906742591,
+      "tag": "0002_create_organizations",
+      "breakpoints": true
     }
   ]
 }
