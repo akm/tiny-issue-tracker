@@ -1,1 +1,1 @@
--- Custom SQL migration file, put your code below! --
+INSERT INTO organizations (id, name) VALUES (1, 'Organization 1');
