@@ -15,6 +15,10 @@ export const organizations = mysqlTable('organizations', {
 
 export const users = mysqlTable('users', {
 	id: int('id').primaryKey().autoincrement(),
+	userId: int('organization_id')
+		.notNull()
+		.default(1) // dummy value
+		.references(() => organizations.id, { onDelete: 'cascade' }),
 	googleId: varchar('google_id', { length: 255 }).notNull().unique(),
 	name: varchar('name', { length: 255 }).notNull(),
 	email: varchar('email', { length: 255 }).notNull()
