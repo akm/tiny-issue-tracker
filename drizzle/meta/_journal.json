@@ -22,6 +22,13 @@
       "when": 1743906742591,
       "tag": "0002_create_organizations",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1743906791849,
+      "tag": "0003_insert_dummy_to_organizations",
+      "breakpoints": true
     }
   ]
 }
