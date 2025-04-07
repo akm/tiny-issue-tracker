@@ -24,7 +24,7 @@
         };
     };
 
-    let modalState: 'hidden' | 'new' | 'edit' = $state('new');
+    let modalState: 'new' | 'edit' = $state('new');
     $inspect({modalState});
 
     // See https://flowbite.com/docs/components/modal/#example
@@ -43,6 +43,14 @@
         {id: 'organizationModal', override: true}
     ) : null;;
 
+
+    const clickNew = (event) => {
+        // event.preventDefault();
+        console.log("clickNew", {event});
+        modalState = 'new';
+        if (!organizationModal) return;
+        organizationModal.show();
+    };
 
     const clickEdit = (event) => {
         // event.preventDefault();
@@ -80,7 +88,7 @@
             <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
                     <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
+                        <a href="#" onclick={clickNew} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Organizartion</a>
                     </li>
                     <li>
                         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
@@ -223,7 +231,7 @@
                 <!-- Modal header -->
                 <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600 border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        Edit
+                        { modalState === 'new' ? 'New' : 'Edit' }
                     </h3>
                    <button type="button" onclick={clickModalClose} class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" >
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -243,7 +251,9 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save all</button>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        { modalState === 'new' ? 'Create' : 'Update' }
+                    </button>
                 </div>
             </form>
         </div>
