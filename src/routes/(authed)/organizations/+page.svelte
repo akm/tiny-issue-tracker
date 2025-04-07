@@ -27,6 +27,8 @@
     let modalState: 'new' | 'edit' = $state('new');
     $inspect({modalState});
 
+    let modalName = $state('');
+
     // See https://flowbite.com/docs/components/modal/#example
     const organizationModal = (browser) ? new Modal(
         document.getElementById('organizationModal'),
@@ -52,11 +54,20 @@
         organizationModal.show();
     };
 
-    const clickEdit = (event) => {
+    const showEditModal = async (id) => {
+        if (!organizationModal) {
+            console.error("showEditModal: organizationModal is not defined");
+            return;
+        }
         // event.preventDefault();
-        console.log("clickEdit", {event});
+        console.log("showEditModal", {id});
         modalState = 'edit';
-        if (!organizationModal) return;
+        const resp = await fetch(`/api/organizations/${id}`);
+        console.log("showEditModal", {id, resp});
+
+        const organizaiton = await resp.json()
+        modalName = organizaiton.name;
+
         organizationModal.show();
     };
 
@@ -145,7 +156,7 @@
                     </th>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
-                        <a href="#" type="button" onclick={clickEdit} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        <a href="#" type="button" onclick={() => showEditModal(item.id)} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
                 </tr>
             {/each}
@@ -174,7 +185,11 @@
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
                             <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="first-name" id="first-name" class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bonnie" required="">
+                            <input type="text" name="first-name" id="first-name" 
+                                placeholder="Bonnie"
+                                required
+                                bind:value={modalName}
+                                class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </div>
                 </div>
