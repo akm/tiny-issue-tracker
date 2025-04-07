@@ -1,6 +1,8 @@
- <script>
+ <script lang="ts">
+    import { browser } from '$app/environment';
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
+    import { Modal } from 'flowbite';
 
     let items = $derived(page.data.items);
     let orderBy = $derived(page.data.orderBy);
@@ -21,6 +23,42 @@
             invalidate(href);
         };
     };
+
+    let modalState: 'hidden' | 'new' | 'edit' = $state('new');
+    $inspect({modalState});
+
+    // See https://flowbite.com/docs/components/modal/#example
+    const organizationModal = (browser) ? new Modal(
+        document.getElementById('organizationModal'),
+        {
+            // placement: 'bottom-right',
+            // backdrop: 'dynamic',
+            // backdropClasses:
+            //     'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+            closable: false,
+            onHide: () => { console.log('modal is hidden'); },
+            onShow: () => { console.log('modal is shown'); },
+            onToggle: () => { console.log('modal has been toggled'); },
+        },
+        {id: 'organizationModal', override: true}
+    ) : null;;
+
+
+    const clickEdit = (event) => {
+        // event.preventDefault();
+        console.log("clickEdit", {event});
+        modalState = 'edit';
+        if (!organizationModal) return;
+        organizationModal.show();
+    };
+
+    const clickModalClose = (event) => {
+        event.preventDefault();
+        console.log("clickModalClose", {event });
+        if (!organizationModal) return;
+        organizationModal.hide();
+    };
+
 
     // console.log("items", {items});
 </script>
@@ -99,7 +137,7 @@
                 </th>
                 <td class="px-6 py-4">
                     <!-- Modal toggle -->
-                    <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <a href="#" type="button" onclick={clickEdit} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -117,7 +155,7 @@
                 </th>
                 <td class="px-6 py-4">
                     <!-- Modal toggle -->
-                    <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <a href="#" type="button" onclick={clickEdit} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -135,7 +173,7 @@
                 </th>
                 <td class="px-6 py-4">
                     <!-- Modal toggle -->
-                    <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <a href="#" type="button" onclick={clickEdit} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -153,7 +191,7 @@
                 </th>
                 <td class="px-6 py-4">
                     <!-- Modal toggle -->
-                    <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <a href="#" type="button" onclick={clickEdit} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 </td>
             </tr>
             <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -171,13 +209,14 @@
                 </th>
                 <td class="px-6 py-4">
                     <!-- Modal toggle -->
-                    <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <a href="#" type="button" onclick={clickEdit} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 </td>
             </tr>
         </tbody>
     </table>
+
     <!-- Edit modal -->
-    <div id="editUserModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div id="organizationModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-2xl max-h-full">
             <!-- Modal content -->
             <form class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -186,12 +225,12 @@
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         Edit
                     </h3>
-                   <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="editUserModal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
+                   <button type="button" onclick={clickModalClose} class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
                 </div>
                 <!-- Modal body -->
                 <div class="p-6 space-y-6">
