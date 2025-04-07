@@ -26,6 +26,10 @@ export async function deleteOrganization(id: number): Promise<void> {
 	await db.delete(organizations).where(eq(organizations.id, id));
 }
 
+export async function getOrganization(id: number): Promise<Organization | undefined> {
+	return await db.query.organizations.findFirst({ where: eq(organizations.id, id) });
+}
+
 export async function listOrganizations(
 	orderBy: 'id' | 'name',
 	orderDirection: 'asc' | 'desc'
