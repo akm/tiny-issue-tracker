@@ -1,4 +1,4 @@
-import { eq, desc, asc } from 'drizzle-orm';
+import { eq, inArray, desc, asc } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 
 import { organizations, users } from './schema';
@@ -30,6 +30,10 @@ export async function updateOrganization(id: number, name: string): Promise<void
 
 export async function deleteOrganization(id: number): Promise<void> {
 	await db.delete(organizations).where(eq(organizations.id, id));
+}
+
+export async function deleteOrganizations(...ids: number[]): Promise<void> {
+	await db.delete(organizations).where(inArray(organizations.id, ids));
 }
 
 export async function getOrganization(id: number): Promise<Organization | undefined> {
