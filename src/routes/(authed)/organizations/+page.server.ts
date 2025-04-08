@@ -1,3 +1,4 @@
+import { fail } from '@sveltejs/kit';
 import {
 	listOrganizations,
 	createOrganization,
@@ -24,18 +25,23 @@ export const load: PageServerLoad = async ({ url }) => {
 export const actions = {
 	create: async ({ request }) => {
 		const formData = await request.formData();
+		console.log('create action', { formData });
 		const name = formData.get('name')?.toString() ?? '';
 		if (name === '') {
-			return { error: 'Name is required' };
+			return fail(400, { error: 'Name is required' });
 		}
 		await createOrganization(name);
 	},
 	update: async ({ request }) => {
 		const formData = await request.formData();
+		console.log('update action', { formData });
 		const id = Number(formData.get('id'));
+		if (!id) {
+			return fail(400, { error: 'ID is required' });
+		}
 		const name = formData.get('name')?.toString() ?? '';
 		if (name === '') {
-			return { error: 'Name is required' };
+			return fail(400, { error: 'Name is required' });
 		}
 		await updateOrganization(id, name);
 	},
