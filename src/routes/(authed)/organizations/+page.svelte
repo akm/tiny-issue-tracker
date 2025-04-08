@@ -1,4 +1,5 @@
  <script lang="ts">
+    import {onMount} from 'svelte';
     import { browser } from '$app/environment';
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
@@ -29,23 +30,26 @@
 
     let modalId = $state(0);
     let modalName = $state('');
+    
+    let organizationModal: Modal | null = null;
 
-    // See https://flowbite.com/docs/components/modal/#example
-    const organizationModal = (browser) ? new Modal(
-        document.getElementById('organizationModal'),
-        {
-            // placement: 'bottom-right',
-            // backdrop: 'dynamic',
-            // backdropClasses:
-            //     'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-            closable: false,
-            onHide: () => { console.log('modal is hidden'); },
-            onShow: () => { console.log('modal is shown'); },
-            onToggle: () => { console.log('modal has been toggled'); },
-        },
-        {id: 'organizationModal', override: true}
-    ) : null;;
-
+    onMount(() => {
+        // See https://flowbite.com/docs/components/modal/#example
+        organizationModal = new Modal(
+            document.getElementById('organizationModal'),
+            {
+                // placement: 'bottom-right',
+                // backdrop: 'dynamic',
+                // backdropClasses:
+                //     'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+                closable: false,
+                onHide: () => { console.log('modal is hidden'); },
+                onShow: () => { console.log('modal is shown'); },
+                onToggle: () => { console.log('modal has been toggled'); },
+            },
+            {id: 'organizationModal', override: true}
+        );
+    });
 
     const showNewModal = () => {
         if (!organizationModal) {
