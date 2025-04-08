@@ -1,4 +1,9 @@
-import { listOrganizations } from '$lib/server/db/organization';
+import {
+	listOrganizations,
+	createOrganization,
+	updateOrganization,
+	deleteOrganization
+} from '$lib/server/db/organization';
 import { assertUnion } from '$lib/union';
 import type { PageServerLoad } from './$types';
 
@@ -14,4 +19,29 @@ export const load: PageServerLoad = async ({ url }) => {
 
 	console.log('ordered:', { items, orderBy, orderDirection });
 	return { items, orderBy, orderDirection };
+};
+
+export const actions = {
+	create: async ({ request }) => {
+		const formData = await request.formData();
+		const name = formData.get('name')?.toString() ?? '';
+		if (name === '') {
+			return { error: 'Name is required' };
+		}
+		await createOrganization(name);
+	},
+	update: async ({ request }) => {
+		const formData = await request.formData();
+		const id = Number(formData.get('id'));
+		const name = formData.get('name')?.toString() ?? '';
+		if (name === '') {
+			return { error: 'Name is required' };
+		}
+		await updateOrganization(id, name);
+	},
+	delete: async ({ request }) => {
+		const formData = await request.formData();
+		const id = Number(formData.get('id'));
+		await deleteOrganization(id);
+	}
 };
