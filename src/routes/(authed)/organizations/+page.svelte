@@ -27,6 +27,7 @@
     let modalState: 'new' | 'edit' = $state('new');
     $inspect({modalState});
 
+    let modalId = $state(0);
     let modalName = $state('');
 
     // See https://flowbite.com/docs/components/modal/#example
@@ -54,6 +55,7 @@
         // event.preventDefault();
         console.log("showNewModal");
         modalState = 'new';
+        modalId = 0;
         modalName = '';
         organizationModal.show();
     };
@@ -69,7 +71,8 @@
         const resp = await fetch(`/api/organizations/${id}`);
         console.log("showEditModal", {id, resp});
 
-        const organizaiton = await resp.json()
+        const organizaiton = await resp.json();
+        modalId = id;
         modalName = organizaiton.name;
 
         organizationModal.show();
@@ -171,7 +174,11 @@
     <div id="organizationModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-2xl max-h-full">
             <!-- Modal content -->
-            <form class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <form method="POST" action={ modalState === 'new' ? '?/create' : `?/update` }
+                class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+
+                <input type="hidden" name="id" bind:value={modalId} />
+
                 <!-- Modal header -->
                 <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600 border-gray-200">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -188,8 +195,8 @@
                 <div class="p-6 space-y-6">
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="first-name" id="first-name" 
+                            <label for="modal-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                            <input type="text" name="name" id="modal-name" 
                                 placeholder="Bonnie"
                                 required
                                 bind:value={modalName}
@@ -199,7 +206,9 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button 
+                        type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         { modalState === 'new' ? 'Create' : 'Update' }
                     </button>
                 </div>
