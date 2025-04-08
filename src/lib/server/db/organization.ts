@@ -42,9 +42,21 @@ export async function getOrganization(id: number): Promise<Organization | undefi
 
 export async function listOrganizations(
 	orderBy: 'id' | 'name',
-	orderDirection: 'asc' | 'desc'
+	orderDirection: 'asc' | 'desc',
+	options?: {
+		limit?: number;
+		offset?: number;
+		ids?: number[];
+	}
 ): Promise<Organization[]> {
 	const orderByCol = orderBy === 'id' ? users.id : orderBy === 'name' ? users.name : users.email;
 	const direction = orderDirection === 'asc' ? asc : desc;
-	return await db.query.organizations.findMany({ orderBy: direction(orderByCol) });
+	const limit = options?.limit ?? 100;
+	const offset = options?.offset ?? 0;
+	return await db.query.organizations.findMany({
+		where: options?.ids ? inArray(organizations.id, options.ids) : undefined,
+		orderBy: direction(orderByCol),
+		limit: limit,
+		offset: offset
+	});
 }
