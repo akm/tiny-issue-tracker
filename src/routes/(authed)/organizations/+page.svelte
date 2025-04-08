@@ -46,11 +46,15 @@
     ) : null;;
 
 
-    const clickNew = (event) => {
+    const showNewModal = () => {
+        if (!organizationModal) {
+            console.error("showEditModal: organizationModal is not defined");
+            return;
+        }
         // event.preventDefault();
-        console.log("clickNew", {event});
+        console.log("showNewModal");
         modalState = 'new';
-        if (!organizationModal) return;
+        modalName = '';
         organizationModal.show();
     };
 
@@ -99,7 +103,7 @@
             <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
                     <li>
-                        <a href="#" onclick={clickNew} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Organizartion</a>
+                        <a href="#" onclick={() => showNewModal()} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Organizartion</a>
                     </li>
                     <li>
                         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
