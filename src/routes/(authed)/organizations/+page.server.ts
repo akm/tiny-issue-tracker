@@ -47,6 +47,7 @@ export const actions = {
 	},
 	delete: async ({ request }) => {
 		const formData = await request.formData();
+		console.log('delete action', { formData });
 		const commaSeparatedIDs = formData.get('ids');
 		if (!commaSeparatedIDs) {
 			return fail(400, { error: 'IDs are required' });
