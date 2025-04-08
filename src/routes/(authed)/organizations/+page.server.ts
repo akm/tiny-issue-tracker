@@ -3,7 +3,7 @@ import {
 	listOrganizations,
 	createOrganization,
 	updateOrganization,
-	deleteOrganization
+	deleteOrganizations
 } from '$lib/server/db/organization';
 import { assertUnion } from '$lib/union';
 import type { PageServerLoad } from './$types';
@@ -47,7 +47,15 @@ export const actions = {
 	},
 	delete: async ({ request }) => {
 		const formData = await request.formData();
-		const id = Number(formData.get('id'));
-		await deleteOrganization(id);
+		const commaSeparatedIDs = formData.get('ids');
+		if (!commaSeparatedIDs) {
+			return fail(400, { error: 'IDs are required' });
+		}
+		const ids = commaSeparatedIDs.toString().split(',').map(Number);
+		if (ids.length === 0) {
+			return fail(400, { error: 'IDs are required' });
+		}
+		console.log('delete action', { ids });
+		await deleteOrganizations(...ids);
 	}
 };
