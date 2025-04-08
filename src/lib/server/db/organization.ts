@@ -19,7 +19,13 @@ export async function createOrganization(name: string): Promise<Organization> {
 }
 
 export async function updateOrganization(id: number, name: string): Promise<void> {
-	await db.update(organizations).set({ name: name }).where(eq(organizations.id, id));
+	await db
+		.update(organizations)
+		.set({
+			name: name,
+			updatedAt: new Date()
+		})
+		.where(eq(organizations.id, id));
 }
 
 export async function deleteOrganization(id: number): Promise<void> {
