@@ -144,6 +144,16 @@
                 </th>
                 <th scope="col" class="px-6 py-3">
                     <div class="flex items-center">
+                        ID
+                        <a href={tableHeadLinkSearchParams("id")} aria-label="Sort by ID" onclick={tableHeadLinkClick("id")}>
+                            <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
                         Name
                         <a href={tableHeadLinkSearchParams("name")} aria-label="Sort by name" onclick={tableHeadLinkClick("name")}>
                             <svg class="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -169,11 +179,8 @@
                             <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                         </div>
                     </td>
-                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                        <div class="ps-3">
-                            <div class="text-base font-semibold">{item.name}</div>
-                        </div>  
-                    </th>
+                    <td class="text-right pr-6 w-6">{item.id}</td>
+                    <td class="pl-8">{item.name}</td>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
                         <a href="#" type="button" onclick={() => showEditModal(item.id)} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
