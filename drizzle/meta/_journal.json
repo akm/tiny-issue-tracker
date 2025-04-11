@@ -15,6 +15,27 @@
       "when": 1743521230037,
       "tag": "0001_nappy_rafael_vega",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1743906742591,
+      "tag": "0002_create_organizations",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1743906791849,
+      "tag": "0003_insert_dummy_to_organizations",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1743907259663,
+      "tag": "0004_add_coolumn_organization_id_to_users",
+      "breakpoints": true
     }
   ]
 }
