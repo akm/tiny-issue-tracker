@@ -157,12 +157,14 @@
         <input type="hidden" name="id" bind:value={modalId} />
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
-                <label for="modal-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" name="name" id="modal-name" 
-                    placeholder="Bonnie"
-                    required
-                    bind:value={modalName}
-                    class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Name
+                    <input type="text" name="name"
+                        placeholder="Bonnie"
+                        required
+                        bind:value={modalName}
+                        class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </label>
             </div>
         </div>
     </FormModal>
