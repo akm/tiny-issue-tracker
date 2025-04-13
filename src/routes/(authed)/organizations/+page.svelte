@@ -5,6 +5,7 @@
     import Button from '$lib/components/atoms/Button.svelte';
     import ActionContainer from '$lib/components/atoms/containers/ActionContainer.svelte';
     import InputText from '$lib/components/atoms/InputText.svelte';
+    import Label from '$lib/components/atoms/Label.svelte';
     import SearchInput from '$lib/components/molecules/SearchInput.svelte';
     import SortIcon from '$lib/components/atoms/SortIcon.svelte';
     import FormModal from '$lib/components/organisms/FormModal.svelte';
@@ -158,10 +159,10 @@
         <input type="hidden" name="id" bind:value={modalId} />
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <Label>
                     Name
                     <InputText name="name" placeholder="Bonnie" required bind:value={modalName} />
-                </label>
+                </Label>
             </div>
         </div>
     </FormModal>
