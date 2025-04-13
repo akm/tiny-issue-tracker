@@ -2,6 +2,7 @@
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 
+    import A from '$lib/components/atoms/A.svelte';
     import Button from '$lib/components/atoms/Button.svelte';
     import ActionContainer from '$lib/components/atoms/containers/ActionContainer.svelte';
     import {checkboxClass} from '$lib/components/atoms/Checkbox';
@@ -140,7 +141,7 @@
                     <td class="pl-8">{item.name}</td>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
-                        <a href="#" type="button" onclick={() => showEditModal(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        <A type="button" onclick={() => showEditModal(item.id)} >Edit</A>
                     </td>
                 </TR>
             {/each}
