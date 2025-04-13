@@ -5,6 +5,7 @@
     import { Modal } from 'flowbite';
 
     import Button from '$lib/components/atoms/Button.svelte';
+    import ActionContainer from '$lib/components/atoms/containers/ActionContainer.svelte';
     import SearchInput from '$lib/components/molecules/SearchInput.svelte';
     import SortIcon from '$lib/components/atoms/SortIcon.svelte';
 
@@ -115,7 +116,7 @@
 
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
+    <ActionContainer>
         <div>
             <Button onclick={() => showNewModal()}>New</Button>
             <Button onclick={() => showDeleteModal()}>Delete</Button>
@@ -124,7 +125,7 @@
         <div class="relative">
             <SearchInput id="table-search-users" placeholder="Search for users"/>
         </div>
-    </div>
+    </ActionContainer>
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
