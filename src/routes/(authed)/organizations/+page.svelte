@@ -9,6 +9,8 @@
     import SearchInput from '$lib/components/molecules/SearchInput.svelte';
     import SortIcon from '$lib/components/atoms/SortIcon.svelte';
 
+    import { TABLE, THEAD} from '$lib/components/atoms/data-table/index.svelte';
+    
     let items = $derived(page.data.items);
     let orderBy = $derived(page.data.orderBy);
     let orderDirection = $derived(page.data.orderDirection);
@@ -126,8 +128,8 @@
             <SearchInput id="table-search-users" placeholder="Search for users"/>
         </div>
     </ActionContainer>
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <TABLE>
+        <THEAD>
             <tr>
                 <th scope="col" class="p-4">
                     <div class="flex items-center">
@@ -155,7 +157,7 @@
                     Action
                 </th>
             </tr>
-        </thead>
+        </THEAD>
         <tbody>
             {#each items as item}
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -177,7 +179,7 @@
                 </tr>
             {/each}
         </tbody>
-    </table>
+    </TABLE>
 
     <!-- Edit modal -->
     <div id="organizationModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
