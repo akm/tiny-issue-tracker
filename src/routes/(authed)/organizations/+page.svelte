@@ -4,6 +4,7 @@
 
     import Button from '$lib/components/atoms/Button.svelte';
     import ActionContainer from '$lib/components/atoms/containers/ActionContainer.svelte';
+    import {checkboxClass} from '$lib/components/atoms/Checkbox';
     import InputText from '$lib/components/atoms/InputText.svelte';
     import Label from '$lib/components/atoms/Label.svelte';
     import SearchInput from '$lib/components/molecules/SearchInput.svelte';
@@ -101,7 +102,7 @@
             <TR>
                 <th scope="col" class="p-4">
                     <div class="flex items-center">
-                        <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <input id="checkbox-all-search" type="checkbox" class={checkboxClass}>
                         <label for="checkbox-all-search" class="sr-only">checkbox</label>
                     </div>
                 </th>
@@ -131,10 +132,7 @@
                 <TR>
                     <td class="w-4 p-4">
                         <div class="flex items-center">
-                            <input id="checkbox-table-search-1" type="checkbox" 
-                                value={item.id}
-                                bind:group={checkedIDs}
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="checkbox-table-search-1" type="checkbox" value={item.id} bind:group={checkedIDs} class={checkboxClass} />
                             <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                         </div>
                     </td>
