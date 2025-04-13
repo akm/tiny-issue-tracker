@@ -8,6 +8,7 @@
     import ActionContainer from '$lib/components/atoms/containers/ActionContainer.svelte';
     import SearchInput from '$lib/components/molecules/SearchInput.svelte';
     import SortIcon from '$lib/components/atoms/SortIcon.svelte';
+    import FormModal from '$lib/components/organisms/FormModal.svelte';
 
     import { TABLE, THEAD, TR } from '$lib/components/atoms/data-table/index.svelte';
     
@@ -39,25 +40,10 @@
     let modalId = $state(0);
     let modalName = $state('');
     
-    let organizationModal: Modal | null = null;
+    let organizationModalVisible = $state(false);
     let deleteModal: Modal | null = null;
 
     onMount(() => {
-        // See https://flowbite.com/docs/components/modal/#example
-        organizationModal = new Modal(
-            document.getElementById('organizationModal'),
-            {
-                // placement: 'bottom-right',
-                // backdrop: 'dynamic',
-                // backdropClasses:
-                //     'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-                closable: false,
-                onHide: () => { console.log('modal is hidden'); },
-                onShow: () => { console.log('modal is shown'); },
-                onToggle: () => { console.log('modal has been toggled'); },
-            },
-            {id: 'organizationModal', override: true}
-        );
         deleteModal = new Modal(
             document.getElementById('deleteModal'),
             {},
@@ -66,23 +52,15 @@
     });
 
     const showNewModal = () => {
-        if (!organizationModal) {
-            console.error("showEditModal: organizationModal is not defined");
-            return;
-        }
         // event.preventDefault();
         console.log("showNewModal");
         modalState = 'new';
         modalId = 0;
         modalName = '';
-        organizationModal.show();
+        organizationModalVisible = true;
     };
 
     const showEditModal = async (id) => {
-        if (!organizationModal) {
-            console.error("showEditModal: organizationModal is not defined");
-            return;
-        }
         // event.preventDefault();
         console.log("showEditModal", {id});
         modalState = 'edit';
@@ -93,7 +71,8 @@
         modalId = id;
         modalName = organizaiton.name;
 
-        organizationModal.show();
+        // organizationModal.show();
+        organizationModalVisible = true;
     };
 
     let deletingOrganizations: {id: number, name:string}[] = $state([]);
@@ -182,51 +161,24 @@
     </TABLE>
 
     <!-- Edit modal -->
-    <div id="organizationModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
-            <form method="POST" action={ modalState === 'new' ? '?/create' : `?/update` }
-                class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-
-                <input type="hidden" name="id" bind:value={modalId} />
-
-                <!-- Modal header -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600 border-gray-200">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        { modalState === 'new' ? 'New' : 'Edit' }
-                    </h3>
-                   <button type="button" onclick={() => organizationModal?.hide()} class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" >
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <div class="grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="modal-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="name" id="modal-name" 
-                                placeholder="Bonnie"
-                                required
-                                bind:value={modalName}
-                                class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button 
-                        type="submit"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        { modalState === 'new' ? 'Create' : 'Update' }
-                    </button>
-                </div>
-            </form>
+    <FormModal
+        action={modalState === 'new' ? '?/create' : `?/update`}
+        title={modalState === 'new' ? 'New' : 'Edit'}
+        bind:visible={organizationModalVisible}
+        submitText={modalState === 'new' ? 'Create' : 'Update'}
+    >
+        <input type="hidden" name="id" bind:value={modalId} />
+        <div class="grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+                <label for="modal-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                <input type="text" name="name" id="modal-name" 
+                    placeholder="Bonnie"
+                    required
+                    bind:value={modalName}
+                    class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
         </div>
-    </div>
-
+    </FormModal>
 
     
     <div id="deleteModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
