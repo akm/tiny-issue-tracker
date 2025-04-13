@@ -140,7 +140,7 @@
                     <td class="pl-8">{item.name}</td>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
-                        <a href="#" type="button" onclick={() => showEditModal(item.id)} data-modal-target="organizationModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                        <a href="#" type="button" onclick={() => showEditModal(item.id)} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
                 </TR>
             {/each}
