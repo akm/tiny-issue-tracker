@@ -2,19 +2,22 @@
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 
-    import A from '$lib/components/atoms/A.svelte';
-    import Button from '$lib/components/atoms/Button.svelte';
-    import ActionContainer from '$lib/components/atoms/containers/ActionContainer.svelte';
-    import {checkboxClass} from '$lib/components/atoms/Checkbox';
-    import InputText from '$lib/components/atoms/InputText.svelte';
-    import Label from '$lib/components/atoms/Label.svelte';
-    import SearchInput from '$lib/components/molecules/SearchInput.svelte';
-    import SortIcon from '$lib/components/atoms/SortIcon.svelte';
-    import FormModal from '$lib/components/organisms/FormModal.svelte';
-    import FormModalAlert from '$lib/components/organisms/FormModalAlert.svelte';
+    import {
+        A,
+        Button,
+        checkboxClass,
+        InputText,
+        Label,
+        SortIcon,
+        ActionContainer,
+        TABLE,
+        THEAD,
+        TR,
+        SearchInput,
+        FormModal,
+        FormModalAlert
+    } from '$lib/components/index.svelte';
 
-    import { TABLE, THEAD, TR } from '$lib/components/atoms/data-table/index.svelte';
-    
     let items = $derived(page.data.items);
     let orderBy = $derived(page.data.orderBy);
     let orderDirection = $derived(page.data.orderDirection);
