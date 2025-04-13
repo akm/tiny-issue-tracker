@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SearchIcon from '../atom/SearchIcon.svelte';
+  import SearchIcon from '../atoms/SearchIcon.svelte';
   const props = $props();
 </script>
 

@@ -2,7 +2,7 @@
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 
-    import SortIcon from '$lib/components/atom/SortIcon.svelte';
+    import SortIcon from '$lib/components/atoms/SortIcon.svelte';
 
     let items = $derived(page.data.items);
     let orderBy = $derived(page.data.orderBy);

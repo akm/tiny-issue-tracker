@@ -4,9 +4,9 @@
 	import { page } from '$app/state';
     import { Modal } from 'flowbite';
 
-    import Button from '$lib/components/atom/Button.svelte';
+    import Button from '$lib/components/atoms/Button.svelte';
     import SearchInput from '$lib/components/molecules/SearchInput.svelte';
-    import SortIcon from '$lib/components/atom/SortIcon.svelte';
+    import SortIcon from '$lib/components/atoms/SortIcon.svelte';
 
     let items = $derived(page.data.items);
     let orderBy = $derived(page.data.orderBy);
