@@ -19,4 +19,4 @@ WORKDIR /srv/uisvr
 COPY --from=builder /srv/uisvr /srv/uisvr
 
 # https://kit.svelte.dev/docs/adapter-node
-CMD ["node", "-r", "dotenv/config", "build"]
+CMD ["node", "--env-file=.env", "build"]
