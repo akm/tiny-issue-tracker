@@ -1,2 +1,2 @@
-APP_NAME=$(shell basename $(shell pwd))
-APP_VERSION=$(shell jq .version package.json)
+APP_NAME = tiny-issue-tracker
+APP_VERSION = $(shell jq -r .version $(PATH_TO_ROOT)/package.json)
