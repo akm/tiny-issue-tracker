@@ -24,7 +24,6 @@ services:
       retries: 20
 
   dbmigration:
-    hostname: app
     image: ${APP_NAME}:${APP_VERSION}
     command: 'npm run atlas:migrate:apply'
     environment:
@@ -33,6 +32,22 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - production
+
+  app:
+    hostname: app
+    image: ${APP_NAME}:${APP_VERSION}
+    ports:
+      - 4173:4173
+    environment:
+      - DATABASE_URL=mysql://tit-server:${MYSQL_PASSWORD}@db:3306/${MYSQ_DATABASE}
+    # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
+    depends_on:
+      db:
+        condition: service_started
+      dbmigration:
+        condition: service_completed_successfully
     networks:
       - production
 
