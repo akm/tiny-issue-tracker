@@ -22,7 +22,8 @@
 		"db:down": "docker compose down",
 		"db:push": "drizzle-kit push",
 		"db:migrate": "drizzle-kit migrate",
-		"db:studio": "drizzle-kit studio"
+		"db:studio": "drizzle-kit studio",
+		"atlas:migrate:hash": "atlas migrate hash --dir file://./drizzle"
 	},
 	"devDependencies": {
 		"@ariga/atlas": "^0.32.0",
