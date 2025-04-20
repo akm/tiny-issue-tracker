@@ -1,0 +1,45 @@
+#
+name: tiny-issue-tracker-prod
+services:
+  db:
+    hostname: db
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - production
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQ_DATABASE}
+      MYSQL_USER: tit-server
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#healthcheck
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 5s
+      timeout: 60s
+      retries: 20
+
+  dbmigration:
+    hostname: app
+    image: ${APP_NAME}:${APP_VERSION}
+    command: |
+      npm i -D  @ariga/atlas && \
+      npx @ariga/atlas migrate hash --dir file:///srv/uisvr/drizzle && \
+      npx @ariga/atlas migrate apply --dir file:///srv/uisvr/drizzle --url $DATABASE_URL
+    environment:
+      - DATABASE_URL=mysql://tit-server:${MYSQL_PASSWORD}@db:3306/${MYSQ_DATABASE}
+    # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
+    depends_on:
+      db:
+        condition: service_healthy
+    # volumes:
+    #   - ./src/migration:/srv/uisvr/src/migration
+    networks:
+      - production
+
+networks:
+  production:
