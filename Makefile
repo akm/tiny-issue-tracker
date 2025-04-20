@@ -18,9 +18,6 @@ npm-install:
 docker-build: npm-run-build
 	docker build . -t $(APP_NAME):$(APP_VERSION)
 
-prod-%:
-	$(MAKE) -C production $*
-
 ARCHIVE_DIR=./archive
 $(ARCHIVE_DIR):
 	mkdir -p $(ARCHIVE_DIR)
