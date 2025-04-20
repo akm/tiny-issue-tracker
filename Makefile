@@ -20,3 +20,14 @@ docker-build: npm-run-build
 
 prod-%:
 	$(MAKE) -C production $*
+
+ARCHIVE_DIR=./archive
+$(ARCHIVE_DIR):
+	mkdir -p $(ARCHIVE_DIR)
+
+.PHONY: build-archive
+build-archive: docker-build docker-save
+
+.PHONY: docker-save
+docker-save: $(ARCHIVE_DIR)
+	docker save $(APP_NAME):$(APP_VERSION) | gzip > $(ARCHIVE_DIR)/$(APP_NAME)-$(APP_VERSION).tar.gz
