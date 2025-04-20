@@ -9,3 +9,4 @@ MYSQ_DATABASE=tiny_issue_tracker
 # These are load from .env file
 # GOOGLE_CLIENT_ID=foo
 # GOOGLE_CLIENT_SECRET=bar
+GOOGLE_AUTH_CALLBACK_ORIGIN=http://localhost:5173
