@@ -47,6 +47,8 @@ services:
       - ORIGIN=http://localhost:5173
       - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
       - GOOGLE_AUTH_CALLBACK_ORIGIN=${GOOGLE_AUTH_CALLBACK_ORIGIN}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
     # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
     depends_on:
       db:
