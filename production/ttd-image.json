@@ -3,6 +3,8 @@
 		"version": "0.0.1",
 		"docker-images": [
 			{
+				"name": "tiny-issue-tracker",
+				"tag": "0.0.1",
 				"archive": "https://storage.googleapis.com/ttd-test-public1/tiny-issue-tracker/0.0.1/tiny-issue-tracker-0.0.1.tar.gz"
 			}
 		],
@@ -10,12 +12,23 @@
 			"file": "https://storage.googleapis.com/ttd-test-public1/tiny-issue-tracker/0.0.1/docker-compose.yml"
 		},
 		"envs": [
-			{ "type": "static", "name": "APP_NAME", "value": "tiny-issue-tracker" },
-			{ "type": "static", "name": "APP_VERSION", "value": "0.0.1" },
-			{ "type": "generated", "name": "MYSQL_ROOT_PASSWORD" },
-			{ "type": "generated", "name": "MYSQL_PASSWORD" },
-			{ "type": "static", "name": "MYSQL_DATABASE", "value": "tiny_issue_tracker" },
-			{ "type": "static", "name": "GOOGLE_AUTH_CALLBACK_ORIGIN", "value": "http://localhost:5173" }
+			{ "name": "APP_NAME", "value": "tiny-issue-tracker" },
+			{ "name": "APP_VERSION", "value": "0.0.1" },
+			{
+				"name": "MYSQL_ROOT_PASSWORD",
+				"type": "MysqlPassword",
+				"args": { "length": 16 }
+			},
+			{
+				"name": "MYSQL_PASSWORD",
+				"type": "MysqlPassword",
+				"args": { "length": 16 }
+			},
+			{ "name": "MYSQL_DATABASE", "value": "tiny_issue_tracker" },
+			{
+				"name": "GOOGLE_AUTH_CALLBACK_ORIGIN",
+				"value": "http://localhost:5173"
+			}
 		]
 	}
 }
