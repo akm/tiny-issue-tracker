@@ -1,0 +1,62 @@
+#
+name: tiny-issue-tracker-prod
+services:
+  db:
+    hostname: db
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - production
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: tit_server
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#healthcheck
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 5s
+      timeout: 60s
+      retries: 20
+
+  dbmigration:
+    image: ${APP_NAME}:${APP_VERSION}-aarch64
+    command: 'npm run atlas:migrate:apply'
+    environment:
+      - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
+    # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - production
+
+  app:
+    hostname: app
+    image: ${APP_NAME}:${APP_VERSION}-aarch64
+    ports:
+      - 5173:5173
+    environment:
+      # https://svelte.jp/docs/kit/adapter-node
+      # - HOST=127.0.0.1
+      - PORT=5173
+      - ORIGIN=http://localhost:5173
+      - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
+      - GOOGLE_AUTH_CALLBACK_ORIGIN=${GOOGLE_AUTH_CALLBACK_ORIGIN}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+    # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
+    depends_on:
+      db:
+        condition: service_started
+      dbmigration:
+        condition: service_completed_successfully
+    networks:
+      - production
+
+networks:
+  production:
