@@ -9,7 +9,7 @@
 			}
 		],
 		"docker-compose": {
-			"file": "https://storage.googleapis.com/ttd-test-public1/tiny-issue-tracker/0.0.1/docker-compose.yml"
+			"file": "https://akm.github.io/tiny-issue-tracker/production/docker-compose.yml"
 		},
 		"envs": [
 			{ "name": "APP_NAME", "value": "tiny-issue-tracker" },
