@@ -11,8 +11,8 @@ services:
       - production
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQ_DATABASE}
-      MYSQL_USER: tit-server
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: tit_server
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./data/mysql:/var/lib/mysql
@@ -27,7 +27,7 @@ services:
     image: ${APP_NAME}:${APP_VERSION}
     command: 'npm run atlas:migrate:apply'
     environment:
-      - DATABASE_URL=mysql://tit-server:${MYSQL_PASSWORD}@db:3306/${MYSQ_DATABASE}
+      - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
     # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
     depends_on:
       db:
@@ -45,8 +45,10 @@ services:
       # - HOST=127.0.0.1
       - PORT=5173
       - ORIGIN=http://localhost:5173
-      - DATABASE_URL=mysql://tit-server:${MYSQL_PASSWORD}@db:3306/${MYSQ_DATABASE}
+      - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
       - GOOGLE_AUTH_CALLBACK_ORIGIN=${GOOGLE_AUTH_CALLBACK_ORIGIN}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
     # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
     depends_on:
       db:
