@@ -24,7 +24,7 @@ services:
       retries: 20
 
   dbmigration:
-    image: ${APP_NAME}:${APP_VERSION}
+    image: ${APP_NAME}:${APP_VERSION}-x86_64
     command: 'npm run atlas:migrate:apply'
     environment:
       - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
@@ -37,7 +37,7 @@ services:
 
   app:
     hostname: app
-    image: ${APP_NAME}:${APP_VERSION}
+    image: ${APP_NAME}:${APP_VERSION}-x86_64
     ports:
       - 5173:5173
     environment:
