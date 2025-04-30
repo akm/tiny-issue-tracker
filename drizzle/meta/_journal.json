@@ -36,6 +36,13 @@
       "when": 1743907259663,
       "tag": "0004_add_coolumn_organization_id_to_users",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1746018910312,
+      "tag": "0005_remove_organization_id_from_users",
+      "breakpoints": true
     }
   ]
 }
