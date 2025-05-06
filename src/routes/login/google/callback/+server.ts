@@ -1,11 +1,12 @@
+import type { RequestEvent } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
+
+import { decodeIdToken } from 'arctic';
+
 import { setSessionTokenCookie } from '$lib/server/session';
 import { generateSessionToken, createSession } from '$lib/server/db/session';
 import { getUserFromGoogleId, createUser } from '$lib/server/db/user';
 import { google } from '$lib/server/oauth';
-import { decodeIdToken } from 'arctic';
-
-import type { RequestEvent } from '@sveltejs/kit';
-import type { OAuth2Tokens } from 'arctic';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
@@ -23,16 +24,15 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 	}
 
-	let tokens: OAuth2Tokens;
+	let claims: { sub: string; name: string; email: string };
 	try {
-		tokens = await google.validateAuthorizationCode(code, codeVerifier);
+		claims = await getClaims(code, codeVerifier);
 	} catch {
 		// Invalid code or client credentials
 		return new Response(null, {
 			status: 400
 		});
 	}
-	const claims = decodeIdToken(tokens.idToken()) as { sub: string; name: string; email: string };
 	console.log('Claims:', claims);
 	const googleUserId = claims.sub;
 	const username = claims.name;
@@ -66,3 +66,16 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		}
 	});
 }
+
+const getClaims = async (
+	code: string,
+	codeVerifier: string
+): Promise<{ sub: string; name: string; email: string }> => {
+	if (env.GOOGLE_AUTH_DUMMY_CLAIMS) {
+		const claimsJson = decodeURIComponent(code);
+		return JSON.parse(claimsJson) as { sub: string; name: string; email: string };
+	} else {
+		const tokens = await google.validateAuthorizationCode(code, codeVerifier);
+		return decodeIdToken(tokens.idToken()) as { sub: string; name: string; email: string };
+	}
+};
