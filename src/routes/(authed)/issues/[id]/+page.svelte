@@ -1,31 +1,12 @@
 <script lang="ts">
+    let { data } = $props();
 
-    const issue: {id: number, title: string, createdAt: string, updatedAt: string, status: "open" | "closed"} = 
-        $state({
-            id: 1,
-            title: "Issue Title1",
-            createdAt: "2023-10-01T00:00:00Z",
-            updatedAt: "2023-10-01T00:00:00Z",
-            status: "open"
-        });
-    const comments = [
-        {
-            id: 1,
-            issueId: 1,
-            userId: 1,
-            content: "This is a comment",
-            createdAt: "2023-10-01T00:00:00Z",
-            updatedAt: "2023-10-01T00:00:00Z"
-        },
-        {
-            id: 2,
-            issueId: 1,
-            userId: 2,
-            content: "This is another comment",
-            createdAt: "2023-10-02T00:00:00Z",
-            updatedAt: "2023-10-02T00:00:00Z"
-        }
-    ];
+    if (!data.issue) {
+        throw new Error("Issue not found");
+    }
+
+    const issue = $state(data.issue);
+    const comments = $state(data.comments || []);
     const users = [
         {id: 1, name: "User1"},
         {id: 2, name: "User2"}
