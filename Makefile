@@ -40,7 +40,7 @@ ARCHIVE_DIR=./archive
 $(ARCHIVE_DIR):
 	mkdir -p $(ARCHIVE_DIR)
 
-.PHONY: build-archive
+.PHONY: docker-archive
 ifeq ($(GOOS),darwin)
 docker-archive: docker-build docker-save-native docker-save-x86_64
 else ifeq ($(GOOS),linux)
