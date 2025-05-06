@@ -22,7 +22,7 @@
     let orderBy = $derived(page.data.orderBy);
     let orderDirection = $derived(page.data.orderDirection);
 
-    const tableHeadLinkSearchParams = (col) => {
+    const tableHeadLinkSearchParams = (col: "id" | "name") => {
         const searchParams = new URLSearchParams();
         searchParams.set("orderBy", col);
         const nextDirection = (col === orderBy) ? (orderDirection === "asc" ? "desc" : "asc") : "asc";
@@ -30,9 +30,9 @@
         console.log("tableHeadLinkSearchParams1", {col, orderBy, orderDirection, nextDirection});
         return "?" + searchParams.toString();
     }
-    const tableHeadLinkClick = (col) => {
+    const tableHeadLinkClick = (col: "id" | "name") => {
         const href = tableHeadLinkSearchParams(col);
-        return (event) => {
+        return (event: MouseEvent) => {
             console.log("tableHeadLinkClick", {event});
             invalidate(href);
         };
@@ -58,7 +58,7 @@
         organizationModalVisible = true;
     };
 
-    const showEditModal = async (id) => {
+    const showEditModal = async (id: number) => {
         // event.preventDefault();
         console.log("showEditModal", {id});
         modalState = 'edit';
