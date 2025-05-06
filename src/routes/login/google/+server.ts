@@ -1,3 +1,5 @@
+import { env } from '$env/dynamic/private';
+
 import { generateState, generateCodeVerifier } from 'arctic';
 import { google } from '$lib/server/oauth';
 
@@ -6,7 +8,6 @@ import type { RequestEvent } from '@sveltejs/kit';
 export async function GET(event: RequestEvent): Promise<Response> {
 	const state = generateState();
 	const codeVerifier = generateCodeVerifier();
-	const url = google.createAuthorizationURL(state, codeVerifier, ['openid', 'profile', 'email']);
 
 	event.cookies.set('google_oauth_state', state, {
 		path: '/',
@@ -21,6 +22,17 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		sameSite: 'lax'
 	});
 
+	if (env.GOOGLE_AUTH_DUMMY_CLAIMS) {
+		const encodedClaims = encodeURIComponent(env.GOOGLE_AUTH_DUMMY_CLAIMS);
+		return new Response(null, {
+			status: 302,
+			headers: {
+				Location: `/login/google/callback?code=${encodedClaims}&state=${state}`
+			}
+		});
+	}
+
+	const url = google.createAuthorizationURL(state, codeVerifier, ['openid', 'profile', 'email']);
 	return new Response(null, {
 		status: 302,
 		headers: {
