@@ -1,7 +1,7 @@
 {
 	"name": "tiny-issue-tracker",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -22,6 +22,7 @@
 		"db:down": "docker compose down",
 		"db:push": "drizzle-kit push",
 		"db:migrate": "drizzle-kit migrate",
+		"db:migration:gen": "drizzle-kit generate",
 		"db:studio": "drizzle-kit studio",
 		"atlas:migrate:hash": "atlas migrate hash --dir file://./drizzle",
 		"atlas:migrate:apply": "atlas migrate apply --dir file://./drizzle --url ${DATABASE_URL}"

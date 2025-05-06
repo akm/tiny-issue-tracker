@@ -22,7 +22,7 @@
     let orderBy = $derived(page.data.orderBy);
     let orderDirection = $derived(page.data.orderDirection);
 
-    const tableHeadLinkSearchParams = (col: "id" | "name") => {
+    const tableHeadLinkSearchParams = (col: 'id' | 'title' | 'createdAt' | 'updatedAt') => {
         const searchParams = new URLSearchParams();
         searchParams.set("orderBy", col);
         const nextDirection = (col === orderBy) ? (orderDirection === "asc" ? "desc" : "asc") : "asc";
@@ -30,7 +30,7 @@
         console.log("tableHeadLinkSearchParams1", {col, orderBy, orderDirection, nextDirection});
         return "?" + searchParams.toString();
     }
-    const tableHeadLinkClick = (col: "id" | "name") => {
+    const tableHeadLinkClick = (col: 'id' | 'title' | 'createdAt' | 'updatedAt') => {
         const href = tableHeadLinkSearchParams(col);
         return (event: MouseEvent) => {
             console.log("tableHeadLinkClick", {event});
@@ -40,46 +40,29 @@
 
     let checkedIDs: number[] = $state([]);
 
-    let modalState: 'new' | 'edit' = $state('new');
-    $inspect({modalState});
-
-    let modalId = $state(0);
-    let modalName = $state('');
+    let modalTitle = $state('');
+    let formModalOrganizations: {id: number, name:string}[] = $state([]);
     
-    let organizationModalVisible = $state(false);
+    let formModalVisible = $state(false);
     let deleteModalVisible = $state(false);
 
-    const showNewModal = () => {
+    const showNewModal = async () => {
         // event.preventDefault();
         console.log("showNewModal");
-        modalState = 'new';
-        modalId = 0;
-        modalName = '';
-        organizationModalVisible = true;
+
+        const resp = await fetch(`/api/organizations`);
+        formModalOrganizations = await resp.json();
+
+        formModalVisible = true;
     };
 
-    const showEditModal = async (id: number) => {
-        // event.preventDefault();
-        console.log("showEditModal", {id});
-        modalState = 'edit';
-        const resp = await fetch(`/api/organizations/${id}`);
-        console.log("showEditModal", {id, resp});
-
-        const organizaiton = await resp.json();
-        modalId = id;
-        modalName = organizaiton.name;
-
-        // organizationModal.show();
-        organizationModalVisible = true;
-    };
-
-    let deletingOrganizations: {id: number, name:string}[] = $state([]);
+    let deletingIssues: {id: number, title:string}[] = $state([]);
 
     const showDeleteModal = async () => {
         console.log("showDeleteModal", {checkedIDs});
 
-        const resp = await fetch(`/api/organizations?ids=${checkedIDs.join(',')}` );
-        deletingOrganizations = await resp.json();
+        const resp = await fetch(`/api/issue_titles?ids=${checkedIDs.join(',')}` );
+        deletingIssues = await resp.json();
 
         deleteModalVisible = true;
     }
@@ -120,8 +103,24 @@
                 </th>
                 <th scope="col" class="px-6 py-3">
                     <div class="flex items-center">
-                        Name
-                        <a href={tableHeadLinkSearchParams("name")} aria-label="Sort by name" onclick={tableHeadLinkClick("name")}>
+                        Title
+                        <a href={tableHeadLinkSearchParams("title")} aria-label="Sort by title" onclick={tableHeadLinkClick("title")}>
+                            <SortIcon/>
+                        </a>
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        Created At
+                        <a href={tableHeadLinkSearchParams("createdAt")} aria-label="Sort by createdAt" onclick={tableHeadLinkClick("createdAt")}>
+                            <SortIcon/>
+                        </a>
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+                        Updated At
+                        <a href={tableHeadLinkSearchParams("updatedAt")} aria-label="Sort by updatedAt" onclick={tableHeadLinkClick("updatedAt")}>
                             <SortIcon/>
                         </a>
                     </div>
@@ -141,29 +140,44 @@
                         </div>
                     </td>
                     <td class="text-right pr-6 w-6">{item.id}</td>
-                    <td class="pl-8">{item.name}</td>
+                    <td class="pl-8">{item.title}</td>
+                    <td class="pl-8">{item.createdAt}</td>
+                    <td class="pl-8">{item.updatedAt}</td>
                     <td class="px-6 py-4">
-                        <!-- Modal toggle -->
-                        <A type="button" onclick={() => showEditModal(item.id)} >Edit</A>
+                        <a href={`/issues/${item.id}`}>Show</a>
                     </td>
                 </TR>
             {/each}
         </tbody>
     </TABLE>
 
-    <!-- Edit modal -->
+    <!-- New modal -->
     <FormModal
-        action={modalState === 'new' ? '?/create' : `?/update`}
-        title={modalState === 'new' ? 'New' : 'Edit'}
-        bind:visible={organizationModalVisible}
-        submitText={modalState === 'new' ? 'Create' : 'Update'}
+        action='?/create'
+        title="New"
+        bind:visible={formModalVisible}
+        submitText='Create'
     >
-        <input type="hidden" name="id" bind:value={modalId} />
+
         <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
                 <Label>
-                    Name
-                    <InputText name="name" placeholder="Bonnie" required bind:value={modalName} />
+                    Organization
+                    <select name="organization_id" required 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {#each formModalOrganizations as organization}
+                            <option value={organization.id}>{organization.name}</option>
+                        {/each}
+                    </select>
+                </Label>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+                <Label>
+                    Title
+                    <InputText name="title" placeholder="issue..." required bind:value={modalTitle} />
                 </Label>
             </div>
         </div>
@@ -171,17 +185,17 @@
 
     <FormModalAlert
         action="?/delete"
-        title={"Are you sure you want to" + (deletingOrganizations.length > 1 ? 'these organizations' : 'this organization')}
+        title={"Are you sure you want to" + (deletingIssues.length > 1 ? 'these issues' : 'this issue')}
         bind:visible={deleteModalVisible}
         submitText="Yes, I'm sure"
         cancelText="No, cancel"
     >
-        <input type="hidden" name="ids" value={deletingOrganizations.map(x => x.id.toString()).join(",")} />
+        <input type="hidden" name="ids" value={deletingIssues.map(x => x.id.toString()).join(",")} />
 
         <ul>
-            {#each deletingOrganizations as organization}
+            {#each deletingIssues as issue}
                 <li class="text-gray-500 dark:text-gray-400">
-                    {organization.name}
+                    {issue.title}
                 </li>
             {/each}
         </ul>
