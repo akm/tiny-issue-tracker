@@ -5,11 +5,11 @@
 			{
 				"name": "tiny-issue-tracker",
 				"tag": "0.0.1",
-				"archive": "https://storage.googleapis.com/ttd-test-public1/tiny-issue-tracker/0.0.1/tiny-issue-tracker-0.0.1-aarch64.tar.gz"
+				"archive": "https://storage.googleapis.com/ttd-test-public1/tiny-issue-tracker/0.0.1/tiny-issue-tracker-0.0.1-x86_64.tar.gz"
 			}
 		],
 		"docker-compose": {
-			"file": "https://akm.github.io/tiny-issue-tracker/production/docker-compose-aarch64.yml"
+			"file": "https://akm.github.io/tiny-issue-tracker/production/0.0.1/docker-compose-x86_64.yml"
 		},
 		"envs": [
 			{ "name": "APP_NAME", "value": "tiny-issue-tracker" },
