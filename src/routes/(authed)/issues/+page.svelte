@@ -144,7 +144,7 @@
                     <td class="pl-8">{item.createdAt}</td>
                     <td class="pl-8">{item.updatedAt}</td>
                     <td class="px-6 py-4">
-                        <a href={`/organizations/${item.id}`}>Show</a>
+                        <a href={`/issues/${item.id}`}>Show</a>
                     </td>
                 </TR>
             {/each}
