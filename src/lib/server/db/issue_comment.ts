@@ -1,4 +1,4 @@
-import { eq, inArray, desc, asc } from 'drizzle-orm';
+import { eq, desc, asc } from 'drizzle-orm';
 import type { InferSelectModel } from 'drizzle-orm';
 
 import { issue_comments } from './schema';
