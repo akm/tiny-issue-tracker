@@ -9,13 +9,13 @@ export type IssueComment = InferSelectModel<typeof issue_comments>;
 export async function createIssueComment(
 	issueId: number,
 	userId: number,
-	comment: string
+	content: string
 ): Promise<IssueComment> {
 	const issueComment: IssueComment = {
 		id: 0, // Assuming the ID is auto-incremented by the database
 		issueId: issueId,
 		userId: userId,
-		comment: comment,
+		content: content,
 		createdAt: new Date(),
 		updatedAt: new Date()
 	};
@@ -24,11 +24,11 @@ export async function createIssueComment(
 	return issueComment;
 }
 
-export const updateIssueComment = async (id: number, comment: string): Promise<void> => {
+export const updateIssueComment = async (id: number, content: string): Promise<void> => {
 	await db
 		.update(issue_comments)
 		.set({
-			comment: comment,
+			content: content,
 			updatedAt: new Date()
 		})
 		.where(eq(issue_comments.id, id));

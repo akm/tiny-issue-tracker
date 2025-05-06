@@ -54,7 +54,7 @@ export const issue_comments = mysqlTable('issue_comments', {
 	userId: int('user_id')
 		.notNull()
 		.references(() => users.id, { onDelete: 'cascade' }),
-	comment: mediumtext('comment').notNull(),
+	content: mediumtext('content').notNull(),
 	createdAt: datetime('created_at')
 		.notNull()
 		.default(sql`(CURRENT_TIMESTAMP)`),
