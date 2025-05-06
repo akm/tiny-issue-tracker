@@ -32,6 +32,7 @@
                 [{issue.status}] #{issue.id}
             </span>
             <form method="POST" action="?/update_title" style="display: inline-block;">
+                <input type="hidden" name="id" value={issue.id} />
                 <input type="text" name="title"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value={editingTitle} />
@@ -109,7 +110,8 @@
         <form method="POST" action="?/add_comment" class="w-full">
             <input type="hidden" name="issue_id" value={issue.id} />
 
-            <textarea rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            <textarea name="content" required
+                rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Add a comment..."></textarea>
 
             <button type="submit"
