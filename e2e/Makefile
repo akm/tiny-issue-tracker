@@ -1,9 +1,16 @@
 .PHONY: default
 default: setup run
 
+# https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables
+ifeq (${GITHUB_ACTIONS},true)
+DB_CONNECTION_INTERVAL:=10
+else
+DB_CONNECTION_INTERVAL?=5
+endif
+
 .PHONY: setup
 setup: down up
-	sleep 5 && \
+	sleep $(DB_CONNECTION_INTERVAL) && \
 	$(MAKE) db-push
 
 .PHONY: up
