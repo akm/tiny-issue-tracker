@@ -1,7 +1,9 @@
 <script lang="ts">
-    const props = $props();
+	const props = $props();
 </script>
 
-<div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
-    {@render props.children()}
+<div
+	class="flex-column flex flex-wrap items-center justify-between space-y-4 bg-white py-4 md:flex-row md:space-y-0 dark:bg-gray-900"
+>
+	{@render props.children()}
 </div>
