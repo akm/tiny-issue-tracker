@@ -41,7 +41,7 @@
 	let checkedIDs: number[] = $state([]);
 
 	let modalState: 'new' | 'edit' = $state('new');
-	$inspect({ modalState });
+	// $inspect({ modalState });
 
 	let modalId = $state(0);
 	let modalName = $state('');
