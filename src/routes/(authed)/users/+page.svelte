@@ -1,4 +1,4 @@
- <script lang="ts">
+ <script>
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 
@@ -8,7 +8,7 @@
     let orderBy = $derived(page.data.orderBy);
     let orderDirection = $derived(page.data.orderDirection);
 
-    const tableHeadLinkSearchParams = (col: "id" | "name" | "email") => {
+    const tableHeadLinkSearchParams = (col) => {
         const searchParams = new URLSearchParams();
         searchParams.set("orderBy", col);
         const nextDirection = (col === orderBy) ? (orderDirection === "asc" ? "desc" : "asc") : "asc";
@@ -16,9 +16,9 @@
         console.log("tableHeadLinkSearchParams1", {col, orderBy, orderDirection, nextDirection});
         return "?" + searchParams.toString();
     }
-    const tableHeadLinkClick = (col: "id" | "name" | "email") => {
+    const tableHeadLinkClick = (col) => {
         const href = tableHeadLinkSearchParams(col);
-        return (event: MouseEvent) => {
+        return (event) => {
             console.log("tableHeadLinkClick", {event});
             invalidate(href);
         };
@@ -75,7 +75,6 @@
                         {item.email}
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <!-- svelte-ignore a11y_invalid_attribute -->
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
                 </tr>

@@ -111,7 +111,6 @@
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
 				<SidebarItem label="Home" href="/" on:click={toggleSide} />
-				<SidebarItem label="Issues" href="/issues" />
 				<SidebarItem label="Organizations" href="/organizations" />
 				<SidebarItem label="Users" href="/users" />
 				{#each page.data.pages as { meta, path }}
