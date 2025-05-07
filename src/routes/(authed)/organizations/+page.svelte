@@ -181,7 +181,8 @@
 	<FormModalAlert
 		action="?/delete"
 		title={'Are you sure you want to delete ' +
-			(deletingOrganizations.length > 1 ? 'these organizations' : 'this organization') + '?'}
+			(deletingOrganizations.length > 1 ? 'these organizations' : 'this organization') +
+			'?'}
 		bind:visible={deleteModalVisible}
 		submitText="Yes, I'm sure"
 		cancelText="No, cancel"
