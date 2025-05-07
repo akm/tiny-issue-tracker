@@ -2,7 +2,7 @@
 default: setup run
 
 .PHONY: setup
-setup: db-down up
+setup: down up
 	sleep 5 && \
 	$(MAKE) db-push
 
@@ -10,8 +10,8 @@ setup: db-down up
 up:
 	docker compose up -d
 
-.PHONY: db-down
-db-down:
+.PHONY: down
+down:
 	docker compose down
 
 # See https://dotenvx.com/ for more information about dotenvx
