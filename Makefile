@@ -3,10 +3,27 @@ PATH_TO_ROOT=.
 include $(PATH_TO_ROOT)/.config.mk
 
 .PHONY: default
-default: build
+default: build check lint
 
 .PHONY: build
-build: npm-install docker-build
+build: npm-install
+
+.PHONY: check
+check: npm-run-check
+
+.PHONY: lint
+lint: npm-run-lint
+
+.PHONY: test
+test: test-unit test-e2e
+
+.PHONY: test-unit
+test-unit:
+	npm run test:unit
+
+.PHONY: test-e2e
+test-e2e:
+	$(MAKE) -C test/e2e
 
 npm-run-%:
 	npm run $*
