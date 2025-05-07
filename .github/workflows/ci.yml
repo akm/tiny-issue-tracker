@@ -46,3 +46,4 @@ jobs:
       - name: Install playwright browsers for testing
         run: npx playwright install chromium
       - run: npm run test:unit
+      - run: make -C e2e
