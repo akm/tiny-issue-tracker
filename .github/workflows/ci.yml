@@ -29,6 +29,12 @@ jobs:
       #     docker version
       #     docker compose version
 
+      # https://github.com/actions/cache/blob/main/examples.md#node---npm
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
       - run: npm install
       - run: npm run build
       - run: npm run check
