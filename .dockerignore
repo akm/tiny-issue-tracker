@@ -2,7 +2,7 @@
 /.dockerignore
 /.git
 /.github
-/.storybook
+# /.storybook
 /archive
 /e2e
 /production
