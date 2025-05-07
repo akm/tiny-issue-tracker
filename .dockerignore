@@ -1,0 +1,14 @@
+/Dockerfile
+/.dockerignore
+/.git
+/.github
+/.storybook
+/archive
+/e2e
+/production
+/test-results
+
+*.md
+.DS_Store
+.env.example
+.gitignore
