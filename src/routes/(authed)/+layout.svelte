@@ -32,7 +32,6 @@
 	let width: number = $state(0);
 	let backdrop: boolean = false;
 
-
 	let drawerHidden = $derived(width < breakPoint);
 	let activateClickOutside = $derived(width < breakPoint);
 
@@ -48,7 +47,7 @@
 		drawerHidden = false;
 	};
 	const hideDrawer = () => {
-		drawerHidden = true;	
+		drawerHidden = true;
 	};
 	let activeUrl = $derived(page.url.pathname);
 	let spanClass = 'pl-2 self-center text-md text-gray-900 whitespace-nowrap dark:text-white';
@@ -60,35 +59,36 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
-<header class="flex-none w-full mx-auto bg-white dark:bg-slate-950">
+<header class="mx-auto w-full flex-none bg-white dark:bg-slate-950">
 	<Navbar let:hidden let:toggle>
 		<NavHamburger
 			on:click={showDrawer}
-			class="focus:outline-none whitespace-normal rounded-lg focus:ring-2 p-1.5 focus:ring-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 m-0 mr-3 lg:hidden"
+			class="m-0 mr-3 rounded-lg p-1.5 whitespace-normal hover:bg-gray-100 focus:ring-2 focus:ring-gray-400 focus:outline-none lg:hidden dark:hover:bg-gray-600"
 		/>
 		<NavBrand href="/" class="lg:ml-64">
 			<Cog />
-			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white pl-4">
+			<span class="self-center pl-4 text-xl font-semibold whitespace-nowrap dark:text-white">
 				My Website
 			</span>
 		</NavBrand>
-		<NavUl {activeUrl}
+		<NavUl
+			{activeUrl}
 			{hidden}
 			{divClass}
 			{ulClass}
 			nonActiveClass="md:!pl-3 md:!py-2 lg:!pl-0 text-gray-700 hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 dark:text-white lg:dark:hover:text-primary-700 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent"
 			activeClass="md:!pl-3 md:!py-2 lg:!pl-0 lg:text-primary-700 text-white dark:text-white dark:lg:text-primary-500 bg-primary-700 lg:bg-transparent dark:bg-primary-600 lg:dark:bg-transparent cursor-default"
 		>
-			<NavLi class="lg:px-2 lg:mb-0" href="/">Home</NavLi>
-			<NavLi class="lg:px-2 lg:mb-0" href="/pages/about">About</NavLi>
+			<NavLi class="lg:mb-0 lg:px-2" href="/">Home</NavLi>
+			<NavLi class="lg:mb-0 lg:px-2" href="/pages/about">About</NavLi>
 			<NavLi
-				class="lg:px-2 lg:mb-0"
+				class="lg:mb-0 lg:px-2"
 				href="https://github.com/shinokada/flowbite-sveltekit-responsive-sidebar-layout"
 				>GitHub</NavLi
 			>
 		</NavUl>
-		<div class="flex items-center ml-auto">
-			<DarkMode class="inline-block dark:hover:text-white hover:text-gray-900" />
+		<div class="ml-auto flex items-center">
+			<DarkMode class="inline-block hover:text-gray-900 dark:hover:text-white" />
 		</div>
 		<NavHamburger on:click={toggle} class="lg:hidden" />
 	</Navbar>
@@ -105,7 +105,7 @@
 	id="sidebar"
 >
 	<div class="flex items-center">
-		<CloseButton on:click={hideDrawer} class="mb-4 dark:text-white lg:hidden" />
+		<CloseButton on:click={hideDrawer} class="mb-4 lg:hidden dark:text-white" />
 	</div>
 	<Sidebar asideClass="w-54" {activeUrl}>
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
@@ -138,8 +138,8 @@
 	</Sidebar>
 </Drawer>
 
-<div class="flex px-4 mx-auto w-full">
-	<main class="lg:ml-72 w-full mx-auto">
+<div class="mx-auto flex w-full px-4">
+	<main class="mx-auto w-full lg:ml-72">
 		{@render children()}
 	</main>
 </div>
