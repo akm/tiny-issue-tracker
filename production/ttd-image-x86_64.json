@@ -9,7 +9,7 @@
 			}
 		],
 		"docker-compose": {
-			"file": "https://akm.github.io/tiny-issue-tracker/production/0.0.1/docker-compose-x86_64.yml"
+			"file": "https://akm.github.io/tiny-issue-tracker/production/docker-compose-x86_64.yml"
 		},
 		"envs": [
 			{ "name": "APP_NAME", "value": "tiny-issue-tracker" },
