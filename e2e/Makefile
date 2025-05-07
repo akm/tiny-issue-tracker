@@ -1,8 +1,8 @@
 .PHONY: default
-default: db-setup run
+default: setup run
 
-.PHONY: db-setup
-db-setup: db-down db-up
+.PHONY: setup
+setup: db-down db-up
 	sleep 5 && \
 	$(MAKE) db-push
 
