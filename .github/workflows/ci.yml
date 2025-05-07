@@ -42,4 +42,7 @@ jobs:
       - run: npm run build
       - run: npm run check
       - run: npm run lint
+
+      # install playwright browsers for testing
+      - run: npx playwright install chromium
       - run: npm run test:unit
