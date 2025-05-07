@@ -8,11 +8,11 @@ db-setup: db-down db-up
 
 .PHONY: db-up
 db-up:
-	docker-compose up -d
+	docker compose up -d
 
 .PHONY: db-down
 db-down:
-	docker-compose down
+	docker compose down
 
 # See https://dotenvx.com/ for more information about dotenvx
 
