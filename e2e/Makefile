@@ -2,12 +2,12 @@
 default: setup run
 
 .PHONY: setup
-setup: db-down db-up
+setup: db-down up
 	sleep 5 && \
 	$(MAKE) db-push
 
-.PHONY: db-up
-db-up:
+.PHONY: up
+up:
 	docker compose up -d
 
 .PHONY: db-down
