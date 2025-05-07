@@ -29,6 +29,37 @@ test('login and CRUD', async ({ page }) => {
 	await test.step('Organization CRUD', async () => {
 		await sidebar.getByRole('link', { name: 'Organizations' }).click();
 
-		await expect(page.getByRole('heading', { name: 'Organizations X' })).toBeVisible();
+		const table = page
+			.getByRole('table')
+			.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
+			.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
+			.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
+		await expect(table).toBeVisible();
+		await page.getByRole('button', { name: 'New' }).click();
+
+		const dialog = page.getByRole('dialog');
+		await expect(dialog).toBeVisible();
+		await expect(dialog.getByRole('heading', { name: 'New' })).toBeVisible();
+
+		const org1Name = 'Test Organization1';
+		await dialog.getByLabel('Name').fill(org1Name);
+		await dialog.getByRole('button', { name: 'Create' }).click();
+		await expect(dialog).toBeHidden();
+		const row1 = table.getByRole('row').filter({ has: page.getByRole('cell', { name: org1Name }) });
+		await expect(row1).toBeVisible();
+		await row1.getByRole('link', { name: 'Edit' }).click();
+
+		await expect(dialog).toBeVisible();
+		await expect(dialog.getByRole('heading', { name: 'Edit' })).toBeVisible();
+
+		await dialog.getByLabel('Name').fill(org1Name + '-dash');
+		await dialog.getByRole('button', { name: 'Update' }).click();
+		await expect(dialog).toBeHidden();
+
+		const row2 = table
+			.getByRole('row')
+			.filter({ has: page.getByRole('cell', { name: org1Name + '-dash' }) });
+		await expect(row2).toBeVisible();
+		await row2.getByRole('checkbox').check();
 	});
 });
