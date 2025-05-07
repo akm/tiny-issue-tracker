@@ -35,6 +35,9 @@ jobs:
         shell: bash
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
 
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
+
       - run: npm install
       - run: npm run build
       - run: npm run check
