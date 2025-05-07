@@ -9,3 +9,5 @@ bun.lockb
 /drizzle
 /vitest.shims.d.ts
 /src/app.css
+
+/archive
