@@ -25,4 +25,4 @@ db-push:
 .PHONY: run
 run:
 	cd .. && \
-	npx dotenvx run -f .env.test -- echo "npm run test:e2e"
+	npx dotenvx run -f .env.test -- npm run test:e2e
