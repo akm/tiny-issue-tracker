@@ -73,7 +73,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each items as item}
+			{#each items as item (item.id)}
 				<tr class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
 					<th
 						scope="row"

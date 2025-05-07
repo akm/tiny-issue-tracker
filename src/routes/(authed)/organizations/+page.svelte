@@ -135,7 +135,7 @@
 			</TR>
 		</THEAD>
 		<tbody>
-			{#each items as item}
+			{#each items as item (item.id)}
 				<TR>
 					<td class="w-4 p-4">
 						<div class="flex items-center">
@@ -193,7 +193,7 @@
 		/>
 
 		<ul>
-			{#each deletingOrganizations as organization}
+			{#each deletingOrganizations as organization (organization.id)}
 				<li class="text-gray-500 dark:text-gray-400">
 					{organization.name}
 				</li>
