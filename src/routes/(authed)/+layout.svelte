@@ -54,8 +54,6 @@
 	let divClass = 'w-full ml-auto lg:block lg:w-auto order-1 lg:order-none';
 	let ulClass =
 		'flex flex-col py-3 my-4 lg:flex-row lg:my-0 text-sm font-medium gap-4 dark:lg:bg-transparent lg:bg-white lg:border-0';
-	let navDivClass =
-		'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 divide-gray-200 dark:divide-gray-700 flex items-center justify-between w-full mx-auto py-1.5 px-4';
 </script>
 
 <svelte:window bind:innerWidth={width} />
@@ -113,7 +111,7 @@
 				<SidebarItem label="Home" href="/" on:click={toggleSide} />
 				<SidebarItem label="Organizations" href="/organizations" />
 				<SidebarItem label="Users" href="/users" />
-				{#each page.data.pages as { meta, path }}
+				{#each page.data.pages as { meta, path } (path)}
 					<SidebarItem
 						label={meta.title}
 						href={`/pages/${path}`}
@@ -123,7 +121,7 @@
 					/>
 				{/each}
 				<SidebarDropdownWrapper label="Articles">
-					{#each page.data.articles as { meta, path }}
+					{#each page.data.articles as { meta, path } (path)}
 						<SidebarItem
 							label={meta.title}
 							href={`/blog/${path}`}
