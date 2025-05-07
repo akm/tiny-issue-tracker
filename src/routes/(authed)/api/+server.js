@@ -17,7 +17,7 @@ const fetchMarkdownPosts = async () => {
 
 	const articles = await Promise.all(
 		iterableArticleFiles.map(async ([path, resolver]) => {
-			// @ts-ignore
+			// @ts-expect-error resolver does not have type definition
 			const { metadata } = await resolver();
 			const filePath = path.slice(17, -3);
 			return {
@@ -29,7 +29,7 @@ const fetchMarkdownPosts = async () => {
 
 	const pages = await Promise.all(
 		iterablePageFiles.map(async ([path, resolver]) => {
-			// @ts-ignore
+			// @ts-expect-error resolver does not have type definition
 			const { metadata } = await resolver();
 			const filePath = path.slice(18, -3);
 			return {
@@ -41,7 +41,7 @@ const fetchMarkdownPosts = async () => {
 
 	const sveltefiles = await Promise.all(
 		iterableSvelteFiles.map(async ([path, resolver]) => {
-			// @ts-ignore
+			// @ts-expect-error resolver does not have type definition
 			const { metadata } = await resolver();
 			const filePath = path.slice(18, -7);
 			return {
