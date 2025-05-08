@@ -1,5 +1,6 @@
 .PHONY: default
 default: setup test
+	$(MAKE) down
 
 # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables
 ifeq (${GITHUB_ACTIONS},true)
