@@ -1,9 +1,19 @@
 import { defineConfig } from '@playwright/test';
 
+const webServerCommand = process.env.WEB_SERVER_COMMAND || 'npm run build && npm run preview';
+const webServerPort = Number(process.env.WEB_SERVER_PORT || 4173);
+const webServerReuse = !!(process.env.WEB_SERVER_REUSE || false);
+
+console.log('[playwright.config.ts] Running');
+console.log('[playwright.config.ts] webServerCommand', webServerCommand);
+console.log('[playwright.config.ts] webServerPort', webServerPort);
+console.log('[playwright.config.ts] webServerReuse', webServerReuse);
+
 export default defineConfig({
 	webServer: {
-		command: 'npm run build && npm run preview',
-		port: 4173
+		command: webServerCommand,
+		port: webServerPort,
+		reuseExistingServer: webServerReuse
 	},
 	testDir: 'e2e',
 	use: {
