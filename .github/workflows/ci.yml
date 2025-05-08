@@ -46,4 +46,6 @@ jobs:
       - name: Install playwright browsers for testing
         run: npx playwright install chromium
       - run: npm run test:unit
+      - name: DB migration test
+        run: make -C drizzle/test
       - run: make -C e2e
