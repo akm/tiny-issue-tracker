@@ -1,11 +1,11 @@
 {
 	"latest": {
-		"version": "0.0.1",
+		"version": "0.0.3",
 		"docker-images": [
 			{
 				"name": "tiny-issue-tracker",
-				"tag": "0.0.1",
-				"archive": "https://storage.googleapis.com/ttd-test-public1/tiny-issue-tracker/0.0.1/tiny-issue-tracker-0.0.1-aarch64.tar.gz"
+				"tag": "0.0.3",
+				"archive": "https://storage.googleapis.com/ttd-test-public1/tiny-issue-tracker/0.0.3/tiny-issue-tracker-0.0.3-aarch64.tar.gz"
 			}
 		],
 		"docker-compose": {
@@ -13,7 +13,7 @@
 		},
 		"envs": [
 			{ "name": "APP_NAME", "value": "tiny-issue-tracker" },
-			{ "name": "APP_VERSION", "value": "0.0.1" },
+			{ "name": "APP_VERSION", "value": "0.0.3" },
 			{
 				"name": "MYSQL_ROOT_PASSWORD",
 				"type": "MysqlPassword",
