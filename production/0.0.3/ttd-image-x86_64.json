@@ -27,7 +27,7 @@
 			{ "name": "MYSQL_DATABASE", "value": "tiny_issue_tracker" },
 			{
 				"name": "GOOGLE_AUTH_CALLBACK_ORIGIN",
-				"value": "http://localhost:5173"
+				"value": "http://localhost:4173"
 			},
 			{ "name": "GOOGLE_CLIENT_ID", "type": "HostEnv" },
 			{ "name": "GOOGLE_CLIENT_SECRET", "type": "HostEnv" }
