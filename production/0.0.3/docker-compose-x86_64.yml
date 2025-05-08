@@ -24,8 +24,8 @@ services:
       retries: 20
 
   dbmigration:
-    image: ${APP_NAME}:${APP_VERSION}-aarch64
-    command: 'npm run atlas:migrate:apply'
+    image: ${APP_NAME}:${APP_VERSION}-x86_64
+    command: 'sh -c "sleep 60; npm run atlas:migrate:apply"'
     environment:
       - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
     # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
@@ -37,14 +37,14 @@ services:
 
   app:
     hostname: app
-    image: ${APP_NAME}:${APP_VERSION}-aarch64
+    image: ${APP_NAME}:${APP_VERSION}-x86_64
     ports:
-      - 5173:5173
+      - 4173:4173
     environment:
       # https://svelte.jp/docs/kit/adapter-node
       # - HOST=127.0.0.1
-      - PORT=5173
-      - ORIGIN=http://localhost:5173
+      - PORT=4173
+      - ORIGIN=http://localhost:4173
       - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
       - GOOGLE_AUTH_CALLBACK_ORIGIN=${GOOGLE_AUTH_CALLBACK_ORIGIN}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
