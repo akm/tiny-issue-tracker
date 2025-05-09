@@ -32,4 +32,6 @@ db-push:
 .PHONY: run
 run:
 	cd .. && \
-	npx dotenvx run -f .env.test -- npm run test:e2e
+	npx dotenvx run -f .env.test -- npx playwright test e2e/login-and-crud.test.ts && \
+	npx dotenvx run -f .env.test -- npx playwright test e2e/organization_01_create.test.ts && \
+	npx dotenvx run -f .env.test -- npx playwright test e2e/organization_02_list.test.ts
