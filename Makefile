@@ -23,7 +23,7 @@ test-unit:
 
 .PHONY: test-e2e
 test-e2e:
-	$(MAKE) -C test/e2e
+	$(MAKE) -C e2e
 
 npm-run-%:
 	npm run $*
