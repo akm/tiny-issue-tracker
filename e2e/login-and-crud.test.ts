@@ -47,17 +47,17 @@ test('login and CRUD', async ({ page }) => {
 	await test.step('Organization CRUD', async () => {
 		await sidebar.getByRole('link', { name: 'Organizations' }).click();
 
-		const table = page
+		const orgTable = page
 			.getByRole('table')
 			.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
 			.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
 			.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
-		await expect(table).toBeVisible();
+		await expect(orgTable).toBeVisible();
 
 		const dialog = page.getByRole('dialog');
 
 		const org1Name = 'Test Organization1';
-		const org1Row = table
+		const org1Row = orgTable
 			.getByRole('row')
 			.filter({ has: page.getByRole('cell', { name: org1Name }) });
 
@@ -73,7 +73,7 @@ test('login and CRUD', async ({ page }) => {
 		});
 
 		const updatedName = 'Organization1 Renamed';
-		const updatedRow = table
+		const updatedRow = orgTable
 			.getByRole('row')
 			.filter({ has: page.getByRole('cell', { name: updatedName }) });
 
