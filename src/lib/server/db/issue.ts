@@ -10,7 +10,8 @@ export type Issue = InferSelectModel<typeof issues>;
 export const createIssue = async (
 	organizationId: number,
 	title: string,
-	userId: number
+	userId: number,
+	headerComment: string
 ): Promise<Issue> => {
 	const issue: Issue = {
 		id: 0, // Assuming the ID is auto-incremented by the database
@@ -22,7 +23,7 @@ export const createIssue = async (
 	};
 	const r = await db.insert(issues).values(issue);
 	issue.id = r[0].insertId;
-	await createIssueComment(issue.id, userId, 'Issue created');
+	await createIssueComment(issue.id, userId, headerComment);
 	return issue;
 };
 
