@@ -3,7 +3,6 @@
 	import { page } from '$app/state';
 
 	import {
-		A,
 		Button,
 		checkboxClass,
 		InputText,
@@ -142,7 +141,7 @@
 			</TR>
 		</THEAD>
 		<tbody>
-			{#each items as item}
+			{#each items as item (item.id)}
 				<TR>
 					<td class="w-4 p-4">
 						<div class="flex items-center">
@@ -179,7 +178,7 @@
 						required
 						class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 					>
-						{#each formModalOrganizations as organization}
+						{#each formModalOrganizations as organization (organization.id)}
 							<option value={organization.id}>{organization.name}</option>
 						{/each}
 					</select>
@@ -222,7 +221,7 @@
 		<input type="hidden" name="ids" value={deletingIssues.map((x) => x.id.toString()).join(',')} />
 
 		<ul>
-			{#each deletingIssues as issue}
+			{#each deletingIssues as issue (issue.id)}
 				<li class="text-gray-500 dark:text-gray-400">
 					{issue.title}
 				</li>
