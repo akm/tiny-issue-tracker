@@ -30,7 +30,11 @@ export const actions = {
 		if (title === '') {
 			return fail(400, { error: 'Title is required' });
 		}
-		await createIssue(organizationID, title, locals.user.id);
+		const headerComment = formData.get('header_comment')?.toString() ?? '';
+		if (headerComment === '') {
+			return fail(400, { error: 'Header Comment is required' });
+		}
+		await createIssue(organizationID, title, locals.user.id, headerComment);
 	},
 	delete: async ({ request }) => {
 		const formData = await request.formData();
