@@ -30,7 +30,7 @@ db-push:
 
 
 .PHONY: run
-run: run-test-crud run-test-create run-test-list
+run: run-test-crud run-test-create-and-check
 
 .PHONY: run-test-crud
 run-test-crud:
