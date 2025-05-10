@@ -170,6 +170,20 @@ test('login and CRUD', async ({ page }) => {
 			await expect(issue1ChangedTitleSection).toBeHidden();
 			await expect(issue1TitleSection).toBeVisible();
 		});
+
+		await test.step('close and open', async () => {
+			const closedTitleSection = page
+				.locator('section')
+				.filter({ has: page.getByRole('heading', { name: '[closed] #1 ' + issue1Title }) });
+
+			await page.getByRole('button', { name: 'Close' }).click();
+			await expect(issue1TitleSection).toBeHidden();
+			await expect(closedTitleSection).toBeVisible();
+
+			await page.getByRole('button', { name: 'Open' }).click();
+			await expect(closedTitleSection).toBeHidden();
+			await expect(issue1TitleSection).toBeVisible();
+		});
 	});
 
 	await test.step('Issue Delete', async () => {
