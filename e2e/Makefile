@@ -40,6 +40,6 @@ run-test-crud:
 run-test-create:
 	cd .. && npx dotenvx run -f .env.test -- npx playwright test e2e/01_organization_create.test.ts
 
-.PHONY: run-test-list
-run-test-list:
-	cd .. && npx dotenvx run -f .env.test -- npx playwright test e2e/02_organization_list.test.ts
+.PHONY: run-test-check
+run-test-check:
+	cd .. && npx dotenvx run -f .env.test -- npx playwright test e2e/02_organization_check.test.ts
