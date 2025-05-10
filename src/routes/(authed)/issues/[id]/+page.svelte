@@ -26,7 +26,7 @@
 
 <div class="p-4">
 
-    <div class="h-16">
+    <section class="h-16">
         {#if titleEditing}
             <span class="text-2xl font-bold text-gray-900 dark:text-white">
                 [{issue.status}] #{issue.id}
@@ -54,10 +54,10 @@
                 </button>
             </h1>
         {/if}
-    </div>
+     </section>
 
     {#each comments as comment (comment.id)}
-        <div class="flex items center mb-4">
+        <section class="flex items center mb-4 ml-8">
             {#if editingCommentIds.includes(comment.id)}
                 <form method="POST" action="?/update_comment" class="w-full">
                     <input type="hidden" name="id" value={comment.id} />
@@ -101,29 +101,31 @@
                     </form>                    
                 </div>
             {/if}
-        </div>
+        </section>
     {/each}
 
     <!-- Add comment pane -->
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">New comment</h3>
-    <div class="flex mb-4 w-full">
-        <form method="POST" action="?/add_comment" class="w-full">
-            <input type="hidden" name="issue_id" value={issue.id} />
+     <section class="ml-8">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">New comment</h3>
+        <div class="flex mb-4 w-full">
+            <form method="POST" action="?/add_comment" class="w-full">
+                <input type="hidden" name="issue_id" value={issue.id} />
 
-            <textarea name="content" required
-                rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Add a comment..."></textarea>
+                <textarea name="content" required
+                    rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Add a comment..."></textarea>
 
-            <button type="submit"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                Add
-            </button>
-        </form>
-    </div>
+                <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 m-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Add
+                </button>
+            </form>
+        </div>
+    </section>
 
 
     <!-- Open / Close button which depends on issue.status  in pane -->
-    <div class="flex items-center">
+    <section class="flex items-center">
         {#if issue.status === "open"}
             <form method="POST" action="?/close">
                 <input type="hidden" name="id" value={issue.id} />
@@ -140,5 +142,5 @@
                 </button>
             </form>
         {/if}
-    </div>
+    </section>
 </div>
