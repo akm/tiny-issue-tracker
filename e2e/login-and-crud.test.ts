@@ -46,12 +46,12 @@ test('login and CRUD', async ({ page }) => {
 
 	const dialog = page.getByRole('dialog');
 
+	// locators for organization
 	const orgTable = page
 		.getByRole('table')
 		.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
 		.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
 		.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
-
 	const org1Name = 'Test Organization1';
 	const org1Row = orgTable
 		.getByRole('row')
@@ -105,19 +105,65 @@ test('login and CRUD', async ({ page }) => {
 		});
 	});
 
-	await test.step('Organization Delete', async () => {
-		await test.step('Delete', async () => {
-			await org1Row.getByRole('checkbox').check();
-			await page.getByRole('button', { name: 'Delete' }).click();
-			await expect(dialog).toBeVisible();
-			await expect(
-				dialog.getByRole('heading', { name: 'Are you sure you want to delete this organization?' })
-			).toBeVisible();
-			await expect(dialog.getByText(org1Name)).toBeVisible();
-			await dialog.getByRole('button', { name: "Yes, I'm sure" }).click();
+	// locators for issue
+	const issueTable = page
+		.getByRole('table')
+		.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Title' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Created At' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Updated At' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
+	const issue1Title = 'Issue1 original title';
+	const issue1Comment = 'Issue1 comment row1\nIssue1 comment row2\nIssue1 comment row3';
+	const issue1Row = issueTable
+		.getByRole('row')
+		.filter({ has: page.getByRole('cell', { name: issue1Title }) });
 
+	await test.step('Issue Create and Update', async () => {
+		await sidebar.getByRole('link', { name: 'Issues' }).click();
+
+		await expect(issueTable).toBeVisible();
+
+		await test.step('Create', async () => {
+			await page.getByRole('button', { name: 'New' }).click();
+			await expect(dialog).toBeVisible();
+			await expect(dialog.getByRole('heading', { name: 'New' })).toBeVisible();
+
+			await dialog.getByLabel('Title').fill(issue1Title);
+			await dialog.getByLabel('Description').fill(issue1Comment);
+			await dialog.getByRole('button', { name: 'Create' }).click();
 			await expect(dialog).toBeHidden();
-			await expect(org1Row).toBeHidden();
+			await expect(issue1Row).toBeVisible();
 		});
+	});
+
+	await test.step('Issue Delete', async () => {
+		await sidebar.getByRole('link', { name: 'Issues' }).click();
+		await issue1Row.getByRole('checkbox').check();
+		await page.getByRole('button', { name: 'Delete' }).click();
+		await expect(dialog).toBeVisible();
+		await expect(
+			dialog.getByRole('heading', { name: 'Are you sure you want to delete this issue?' })
+		).toBeVisible();
+		await expect(dialog.getByText(issue1Title)).toBeVisible();
+		await dialog.getByRole('button', { name: "Yes, I'm sure" }).click();
+
+		await expect(dialog).toBeHidden();
+		await expect(issue1Row).toBeHidden();
+	});
+
+	await test.step('Organization Delete', async () => {
+		await sidebar.getByRole('link', { name: 'Organizations' }).click();
+		await org1Row.getByRole('checkbox').check();
+		await page.getByRole('button', { name: 'Delete' }).click();
+		await expect(dialog).toBeVisible();
+		await expect(
+			dialog.getByRole('heading', { name: 'Are you sure you want to delete this organization?' })
+		).toBeVisible();
+		await expect(dialog.getByText(org1Name)).toBeVisible();
+		await dialog.getByRole('button', { name: "Yes, I'm sure" }).click();
+
+		await expect(dialog).toBeHidden();
+		await expect(org1Row).toBeHidden();
 	});
 });
