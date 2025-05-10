@@ -55,9 +55,9 @@ test('login and CRUD', async ({ page }) => {
 		await expect(table).toBeVisible();
 
 		const dialog = page.getByRole('dialog');
-		const org1Name = 'Test Organization1';
 
-		const origRow = table
+		const org1Name = 'Test Organization1';
+		const org1Row = table
 			.getByRole('row')
 			.filter({ has: page.getByRole('cell', { name: org1Name }) });
 
@@ -69,7 +69,7 @@ test('login and CRUD', async ({ page }) => {
 			await dialog.getByLabel('Name').fill(org1Name);
 			await dialog.getByRole('button', { name: 'Create' }).click();
 			await expect(dialog).toBeHidden();
-			await expect(origRow).toBeVisible();
+			await expect(org1Row).toBeVisible();
 		});
 
 		const updatedName = 'Organization1 Renamed';
@@ -78,7 +78,7 @@ test('login and CRUD', async ({ page }) => {
 			.filter({ has: page.getByRole('cell', { name: updatedName }) });
 
 		await test.step('Edit', async () => {
-			await origRow.getByRole('link', { name: 'Edit' }).click();
+			await org1Row.getByRole('link', { name: 'Edit' }).click();
 			await expect(dialog).toBeVisible();
 			await expect(dialog.getByRole('heading', { name: 'Edit' })).toBeVisible();
 
@@ -86,7 +86,7 @@ test('login and CRUD', async ({ page }) => {
 			await dialog.getByRole('button', { name: 'Update' }).click();
 			await expect(dialog).toBeHidden();
 
-			await expect(origRow).toBeHidden();
+			await expect(org1Row).toBeHidden();
 			await expect(updatedRow).toBeVisible();
 		});
 
@@ -100,11 +100,11 @@ test('login and CRUD', async ({ page }) => {
 			await expect(dialog).toBeHidden();
 
 			await expect(updatedRow).toBeHidden;
-			await expect(origRow).toBeVisible();
+			await expect(org1Row).toBeVisible();
 		});
 
 		await test.step('Delete', async () => {
-			await origRow.getByRole('checkbox').check();
+			await org1Row.getByRole('checkbox').check();
 			await page.getByRole('button', { name: 'Delete' }).click();
 			await expect(dialog).toBeVisible();
 			await expect(
