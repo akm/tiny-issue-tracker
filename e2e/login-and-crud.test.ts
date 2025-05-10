@@ -26,6 +26,24 @@ test('login and CRUD', async ({ page }) => {
 	await expect(sidebar.getByRole('link', { name: 'Organizations' })).toBeVisible();
 	await expect(sidebar.getByRole('link', { name: 'Users' })).toBeVisible();
 
+	await test.step('User List', async () => {
+		await sidebar.getByRole('link', { name: 'User' }).click();
+
+		const table = page
+			.getByRole('table')
+			.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
+			.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
+			.filter({ has: page.getByRole('columnheader', { name: 'Email' }) });
+		//.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
+		await expect(table).toBeVisible();
+
+		const row1 = table
+			.getByRole('row')
+			.filter({ has: page.getByRole('cell', { name: 'Dummy User' }) })
+			.filter({ has: page.getByRole('cell', { name: 'dummy@example.com' }) });
+		await expect(row1).toBeVisible();
+	});
+
 	await test.step('Organization CRUD', async () => {
 		await sidebar.getByRole('link', { name: 'Organizations' }).click();
 
@@ -82,23 +100,5 @@ test('login and CRUD', async ({ page }) => {
 			await expect(dialog).toBeHidden();
 			await expect(updatedRow).toBeHidden();
 		});
-	});
-
-	await test.step('User List', async () => {
-		await sidebar.getByRole('link', { name: 'User' }).click();
-
-		const table = page
-			.getByRole('table')
-			.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
-			.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
-			.filter({ has: page.getByRole('columnheader', { name: 'Email' }) });
-		//.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
-		await expect(table).toBeVisible();
-
-		const row1 = table
-			.getByRole('row')
-			.filter({ has: page.getByRole('cell', { name: 'Dummy User' }) })
-			.filter({ has: page.getByRole('cell', { name: 'dummy@example.com' }) });
-		await expect(row1).toBeVisible();
 	});
 });
