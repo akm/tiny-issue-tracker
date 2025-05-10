@@ -119,7 +119,7 @@ test('login and CRUD', async ({ page }) => {
 		.getByRole('row')
 		.filter({ has: page.getByRole('cell', { name: issue1Title }) });
 
-	await test.step('Issue Create and Update', async () => {
+	await test.step('Issue Create', async () => {
 		await sidebar.getByRole('link', { name: 'Issues' }).click();
 
 		await expect(issueTable).toBeVisible();
@@ -134,6 +134,41 @@ test('login and CRUD', async ({ page }) => {
 			await dialog.getByRole('button', { name: 'Create' }).click();
 			await expect(dialog).toBeHidden();
 			await expect(issue1Row).toBeVisible();
+		});
+	});
+
+	await test.step('Issue Show and Edit', async () => {
+		await issue1Row.getByRole('link', { name: 'Show' }).click();
+
+		const issue1TitleSection = page
+			.locator('section')
+			.filter({ has: page.getByRole('heading', { name: '[open] #1 ' + issue1Title }) });
+
+		await expect(issue1TitleSection).toBeVisible();
+		await expect(page.getByText(issue1Comment)).toBeVisible();
+
+		await test.step('change title', async () => {
+			const issue1TitleChanged = 'Issue1 changed title';
+			await issue1TitleSection.getByRole('button', { name: 'Edit' }).click();
+
+			const issue1EditingTitleSection = page.locator('section', { hasText: '[open] #1' });
+			await expect(issue1EditingTitleSection).toBeVisible();
+			await issue1EditingTitleSection.getByRole('textbox').fill(issue1TitleChanged);
+			await issue1EditingTitleSection.getByRole('button', { name: 'Update' }).click();
+
+			const issue1ChangedTitleSection = page
+				.locator('section')
+				.filter({ has: page.getByRole('heading', { name: '[open] #1 ' + issue1TitleChanged }) });
+			await expect(issue1TitleSection).toBeHidden();
+			await expect(issue1ChangedTitleSection).toBeVisible();
+
+			// 元のタイトルに戻す
+			await issue1ChangedTitleSection.getByRole('button', { name: 'Edit' }).click();
+			await expect(issue1EditingTitleSection).toBeVisible();
+			await issue1EditingTitleSection.getByRole('textbox').fill(issue1Title);
+			await issue1EditingTitleSection.getByRole('button', { name: 'Update' }).click();
+			await expect(issue1ChangedTitleSection).toBeHidden();
+			await expect(issue1TitleSection).toBeVisible();
 		});
 	});
 
