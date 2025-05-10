@@ -44,22 +44,23 @@ test('login and CRUD', async ({ page }) => {
 		await expect(row1).toBeVisible();
 	});
 
-	await test.step('Organization CRUD', async () => {
+	const dialog = page.getByRole('dialog');
+
+	const orgTable = page
+		.getByRole('table')
+		.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
+
+	const org1Name = 'Test Organization1';
+	const org1Row = orgTable
+		.getByRole('row')
+		.filter({ has: page.getByRole('cell', { name: org1Name }) });
+
+	await test.step('Organization Create and Update', async () => {
 		await sidebar.getByRole('link', { name: 'Organizations' }).click();
 
-		const orgTable = page
-			.getByRole('table')
-			.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
-			.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
-			.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
 		await expect(orgTable).toBeVisible();
-
-		const dialog = page.getByRole('dialog');
-
-		const org1Name = 'Test Organization1';
-		const org1Row = orgTable
-			.getByRole('row')
-			.filter({ has: page.getByRole('cell', { name: org1Name }) });
 
 		await test.step('Create', async () => {
 			await page.getByRole('button', { name: 'New' }).click();
@@ -102,7 +103,9 @@ test('login and CRUD', async ({ page }) => {
 			await expect(updatedRow).toBeHidden;
 			await expect(org1Row).toBeVisible();
 		});
+	});
 
+	await test.step('Organization Delete', async () => {
 		await test.step('Delete', async () => {
 			await org1Row.getByRole('checkbox').check();
 			await page.getByRole('button', { name: 'Delete' }).click();
@@ -114,7 +117,7 @@ test('login and CRUD', async ({ page }) => {
 			await dialog.getByRole('button', { name: "Yes, I'm sure" }).click();
 
 			await expect(dialog).toBeHidden();
-			await expect(updatedRow).toBeHidden();
+			await expect(org1Row).toBeHidden();
 		});
 	});
 });
