@@ -26,64 +26,6 @@ test('login and CRUD', async ({ page }) => {
 	await expect(sidebar.getByRole('link', { name: 'Organizations' })).toBeVisible();
 	await expect(sidebar.getByRole('link', { name: 'Users' })).toBeVisible();
 
-	await test.step('Organization CRUD', async () => {
-		await sidebar.getByRole('link', { name: 'Organizations' }).click();
-
-		const table = page
-			.getByRole('table')
-			.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
-			.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
-			.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
-		await expect(table).toBeVisible();
-
-		const dialog = page.getByRole('dialog');
-		const org1Name = 'Test Organization1';
-
-		await test.step('Create', async () => {
-			await page.getByRole('button', { name: 'New' }).click();
-			await expect(dialog).toBeVisible();
-			await expect(dialog.getByRole('heading', { name: 'New' })).toBeVisible();
-
-			await dialog.getByLabel('Name').fill(org1Name);
-			await dialog.getByRole('button', { name: 'Create' }).click();
-			await expect(dialog).toBeHidden();
-			const row1 = table
-				.getByRole('row')
-				.filter({ has: page.getByRole('cell', { name: org1Name }) });
-			await expect(row1).toBeVisible();
-			await row1.getByRole('link', { name: 'Edit' }).click();
-		});
-
-		const updatedRow = table
-			.getByRole('row')
-			.filter({ has: page.getByRole('cell', { name: org1Name + '-dash' }) });
-
-		await test.step('Edit', async () => {
-			await expect(dialog).toBeVisible();
-			await expect(dialog.getByRole('heading', { name: 'Edit' })).toBeVisible();
-
-			await dialog.getByLabel('Name').fill(org1Name + '-dash');
-			await dialog.getByRole('button', { name: 'Update' }).click();
-			await expect(dialog).toBeHidden();
-
-			await expect(updatedRow).toBeVisible();
-		});
-
-		await test.step('Delete', async () => {
-			await updatedRow.getByRole('checkbox').check();
-			await page.getByRole('button', { name: 'Delete' }).click();
-			await expect(dialog).toBeVisible();
-			await expect(
-				dialog.getByRole('heading', { name: 'Are you sure you want to delete this organization?' })
-			).toBeVisible();
-			await expect(dialog.getByText('Test Organization1-dash')).toBeVisible();
-			await dialog.getByRole('button', { name: "Yes, I'm sure" }).click();
-
-			await expect(dialog).toBeHidden();
-			await expect(updatedRow).toBeHidden();
-		});
-	});
-
 	await test.step('User List', async () => {
 		await sidebar.getByRole('link', { name: 'User' }).click();
 
@@ -100,5 +42,219 @@ test('login and CRUD', async ({ page }) => {
 			.filter({ has: page.getByRole('cell', { name: 'Dummy User' }) })
 			.filter({ has: page.getByRole('cell', { name: 'dummy@example.com' }) });
 		await expect(row1).toBeVisible();
+	});
+
+	const dialog = page.getByRole('dialog');
+
+	// locators for organization
+	const orgTable = page
+		.getByRole('table')
+		.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Name' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
+	const org1Name = 'Test Organization1';
+	const org1Row = orgTable
+		.getByRole('row')
+		.filter({ has: page.getByRole('cell', { name: org1Name }) });
+
+	await test.step('Organization Create and Update', async () => {
+		await sidebar.getByRole('link', { name: 'Organizations' }).click();
+
+		await expect(orgTable).toBeVisible();
+
+		await test.step('Create', async () => {
+			await page.getByRole('button', { name: 'New' }).click();
+			await expect(dialog).toBeVisible();
+			await expect(dialog.getByRole('heading', { name: 'New' })).toBeVisible();
+
+			await dialog.getByLabel('Name').fill(org1Name);
+			await dialog.getByRole('button', { name: 'Create' }).click();
+			await expect(dialog).toBeHidden();
+			await expect(org1Row).toBeVisible();
+		});
+
+		const updatedName = 'Organization1 Renamed';
+		const updatedRow = orgTable
+			.getByRole('row')
+			.filter({ has: page.getByRole('cell', { name: updatedName }) });
+
+		await test.step('Edit', async () => {
+			await org1Row.getByRole('link', { name: 'Edit' }).click();
+			await expect(dialog).toBeVisible();
+			await expect(dialog.getByRole('heading', { name: 'Edit' })).toBeVisible();
+
+			await dialog.getByLabel('Name').fill(updatedName);
+			await dialog.getByRole('button', { name: 'Update' }).click();
+			await expect(dialog).toBeHidden();
+
+			await expect(org1Row).toBeHidden();
+			await expect(updatedRow).toBeVisible();
+		});
+
+		await test.step('Update back', async () => {
+			await updatedRow.getByRole('link', { name: 'Edit' }).click();
+			await expect(dialog).toBeVisible();
+			await expect(dialog.getByRole('heading', { name: 'Edit' })).toBeVisible();
+
+			await dialog.getByLabel('Name').fill(org1Name);
+			await dialog.getByRole('button', { name: 'Update' }).click();
+			await expect(dialog).toBeHidden();
+
+			await expect(updatedRow).toBeHidden;
+			await expect(org1Row).toBeVisible();
+		});
+	});
+
+	// locators for issue
+	const issueTable = page
+		.getByRole('table')
+		.filter({ has: page.getByRole('columnheader', { name: 'ID' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Title' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Created At' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Updated At' }) })
+		.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
+	const issue1Title = 'Issue1 original title';
+	const issue1Comment = 'Issue1 comment row1\nIssue1 comment row2\nIssue1 comment row3';
+	const issue1Row = issueTable
+		.getByRole('row')
+		.filter({ has: page.getByRole('cell', { name: issue1Title }) });
+
+	await test.step('Issue Create', async () => {
+		await sidebar.getByRole('link', { name: 'Issues' }).click();
+
+		await expect(issueTable).toBeVisible();
+
+		await test.step('Create', async () => {
+			await page.getByRole('button', { name: 'New' }).click();
+			await expect(dialog).toBeVisible();
+			await expect(dialog.getByRole('heading', { name: 'New' })).toBeVisible();
+
+			await dialog.getByLabel('Title').fill(issue1Title);
+			await dialog.getByLabel('Description').fill(issue1Comment);
+			await dialog.getByRole('button', { name: 'Create' }).click();
+			await expect(dialog).toBeHidden();
+			await expect(issue1Row).toBeVisible();
+		});
+	});
+
+	await test.step('Issue Show and Edit', async () => {
+		await issue1Row.getByRole('link', { name: 'Show' }).click();
+
+		const issue1TitleSection = page
+			.locator('section')
+			.filter({ has: page.getByRole('heading', { name: '[open] #1 ' + issue1Title }) });
+
+		await expect(issue1TitleSection).toBeVisible();
+		await expect(page.getByText(issue1Comment)).toBeVisible();
+
+		await test.step('change title', async () => {
+			const issue1TitleChanged = 'Issue1 changed title';
+			await issue1TitleSection.getByRole('button', { name: 'Edit' }).click();
+
+			const issue1EditingTitleSection = page.locator('section', { hasText: '[open] #1' });
+			await expect(issue1EditingTitleSection).toBeVisible();
+			await issue1EditingTitleSection.getByRole('textbox').fill(issue1TitleChanged);
+			await issue1EditingTitleSection.getByRole('button', { name: 'Update' }).click();
+
+			const issue1ChangedTitleSection = page
+				.locator('section')
+				.filter({ has: page.getByRole('heading', { name: '[open] #1 ' + issue1TitleChanged }) });
+			await expect(issue1TitleSection).toBeHidden();
+			await expect(issue1ChangedTitleSection).toBeVisible();
+
+			// 元のタイトルに戻す
+			await issue1ChangedTitleSection.getByRole('button', { name: 'Edit' }).click();
+			await expect(issue1EditingTitleSection).toBeVisible();
+			await issue1EditingTitleSection.getByRole('textbox').fill(issue1Title);
+			await issue1EditingTitleSection.getByRole('button', { name: 'Update' }).click();
+			await expect(issue1ChangedTitleSection).toBeHidden();
+			await expect(issue1TitleSection).toBeVisible();
+		});
+
+		await test.step('close and open', async () => {
+			const closedTitleSection = page
+				.locator('section')
+				.filter({ has: page.getByRole('heading', { name: '[closed] #1 ' + issue1Title }) });
+
+			await page.getByRole('button', { name: 'Close' }).click();
+			await expect(issue1TitleSection).toBeHidden();
+			await expect(closedTitleSection).toBeVisible();
+
+			await page.getByRole('button', { name: 'Open' }).click();
+			await expect(closedTitleSection).toBeHidden();
+			await expect(issue1TitleSection).toBeVisible();
+		});
+
+		await test.step('comment CRUD', async () => {
+			const addCommentSection = page.locator('section', { hasText: 'New comment' });
+			await expect(addCommentSection).toBeVisible();
+			await expect(addCommentSection.getByRole('textbox')).toBeVisible();
+			await expect(addCommentSection.getByRole('button', { name: 'Add' })).toBeVisible();
+
+			const comment2 = 'This is a comment1';
+			await addCommentSection.getByRole('textbox').fill(comment2);
+			await addCommentSection.getByRole('button', { name: 'Add' }).click();
+
+			await expect(issue1TitleSection).toBeVisible();
+			await expect(page.getByText(issue1Comment)).toBeVisible();
+			await expect(page.getByText(comment2)).toBeVisible();
+
+			// コメントを編集
+			const commentSection = page.locator('section', { hasText: comment2 });
+			await expect(commentSection).toBeVisible();
+			await expect(commentSection.getByRole('button', { name: 'Edit' })).toBeVisible();
+
+			await commentSection.getByRole('button', { name: 'Edit' }).click();
+			const editingSection = page.locator('section', {
+				has: page.locator(`form[action="?/update_comment"]`, {
+					has: page.getByRole('textbox')
+				})
+			});
+			await expect(editingSection).toBeVisible();
+
+			const updatedComment2 = 'This is an updated comment1';
+			await editingSection.getByRole('textbox').fill(updatedComment2);
+			await editingSection.getByRole('button', { name: 'Update' }).click();
+
+			const updatedCommentSection = page.locator('section', { hasText: updatedComment2 });
+			await expect(updatedCommentSection).toBeVisible();
+			await expect(commentSection).toBeHidden();
+			await expect(page.getByText(updatedComment2)).toBeVisible();
+
+			// コメントを削除
+			await updatedCommentSection.getByRole('button', { name: 'Delete' }).click();
+			await expect(updatedCommentSection).toBeHidden();
+			await expect(commentSection).toBeHidden();
+		});
+	});
+
+	await test.step('Issue Delete', async () => {
+		await sidebar.getByRole('link', { name: 'Issues' }).click();
+		await issue1Row.getByRole('checkbox').check();
+		await page.getByRole('button', { name: 'Delete' }).click();
+		await expect(dialog).toBeVisible();
+		await expect(
+			dialog.getByRole('heading', { name: 'Are you sure you want to delete this issue?' })
+		).toBeVisible();
+		await expect(dialog.getByText(issue1Title)).toBeVisible();
+		await dialog.getByRole('button', { name: "Yes, I'm sure" }).click();
+
+		await expect(dialog).toBeHidden();
+		await expect(issue1Row).toBeHidden();
+	});
+
+	await test.step('Organization Delete', async () => {
+		await sidebar.getByRole('link', { name: 'Organizations' }).click();
+		await org1Row.getByRole('checkbox').check();
+		await page.getByRole('button', { name: 'Delete' }).click();
+		await expect(dialog).toBeVisible();
+		await expect(
+			dialog.getByRole('heading', { name: 'Are you sure you want to delete this organization?' })
+		).toBeVisible();
+		await expect(dialog.getByText(org1Name)).toBeVisible();
+		await dialog.getByRole('button', { name: "Yes, I'm sure" }).click();
+
+		await expect(dialog).toBeHidden();
+		await expect(org1Row).toBeHidden();
 	});
 });

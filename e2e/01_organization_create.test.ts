@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { organizations } from './organization_00_data';
+import { organizations } from './organization_data';
 
-test('organization 02 list', async ({ page }) => {
+test('organization 01 create', async ({ page }) => {
 	await page.goto('/');
 
 	// https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Reference/Roles/banner_role
@@ -29,7 +29,15 @@ test('organization 02 list', async ({ page }) => {
 		.filter({ has: page.getByRole('columnheader', { name: 'Action' }) });
 	await expect(table).toBeVisible();
 
+	const dialog = page.getByRole('dialog');
 	for (const org of organizations) {
+		await page.getByRole('button', { name: 'New' }).click();
+		await expect(dialog).toBeVisible();
+		await expect(dialog.getByRole('heading', { name: 'New' })).toBeVisible();
+
+		await dialog.getByLabel('Name').fill(org.name);
+		await dialog.getByRole('button', { name: 'Create' }).click();
+		await expect(dialog).toBeHidden();
 		const row1 = table.getByRole('row').filter({ has: page.getByRole('cell', { name: org.name }) });
 		await expect(row1).toBeVisible();
 	}
