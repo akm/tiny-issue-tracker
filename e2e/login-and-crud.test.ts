@@ -184,6 +184,48 @@ test('login and CRUD', async ({ page }) => {
 			await expect(closedTitleSection).toBeHidden();
 			await expect(issue1TitleSection).toBeVisible();
 		});
+
+		await test.step('comment CRUD', async () => {
+			const addCommentSection = page.locator('section', { hasText: 'New comment' });
+			await expect(addCommentSection).toBeVisible();
+			await expect(addCommentSection.getByRole('textbox')).toBeVisible();
+			await expect(addCommentSection.getByRole('button', { name: 'Add' })).toBeVisible();
+
+			const comment2 = 'This is a comment1';
+			await addCommentSection.getByRole('textbox').fill(comment2);
+			await addCommentSection.getByRole('button', { name: 'Add' }).click();
+
+			await expect(issue1TitleSection).toBeVisible();
+			await expect(page.getByText(issue1Comment)).toBeVisible();
+			await expect(page.getByText(comment2)).toBeVisible();
+
+			// コメントを編集
+			const commentSection = page.locator('section', { hasText: comment2 });
+			await expect(commentSection).toBeVisible();
+			await expect(commentSection.getByRole('button', { name: 'Edit' })).toBeVisible();
+
+			await commentSection.getByRole('button', { name: 'Edit' }).click();
+			const editingSection = page.locator('section', {
+				has: page.locator(`form[action="?/update_comment"]`, {
+					has: page.getByRole('textbox')
+				})
+			});
+			await expect(editingSection).toBeVisible();
+
+			const updatedComment2 = 'This is an updated comment1';
+			await editingSection.getByRole('textbox').fill(updatedComment2);
+			await editingSection.getByRole('button', { name: 'Update' }).click();
+
+			const updatedCommentSection = page.locator('section', { hasText: updatedComment2 });
+			await expect(updatedCommentSection).toBeVisible();
+			await expect(commentSection).toBeHidden();
+			await expect(page.getByText(updatedComment2)).toBeVisible();
+
+			// コメントを削除
+			await updatedCommentSection.getByRole('button', { name: 'Delete' }).click();
+			await expect(updatedCommentSection).toBeHidden();
+			await expect(commentSection).toBeHidden();
+		});
 	});
 
 	await test.step('Issue Delete', async () => {
