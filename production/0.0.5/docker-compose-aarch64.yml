@@ -25,7 +25,7 @@ services:
 
   dbmigration:
     image: ${APP_NAME}:${APP_VERSION}-aarch64
-    command: 'npm run atlas:migrate:apply'
+    command: 'sh -c "sleep 60; npm run atlas:migrate:apply"'
     environment:
       - DATABASE_URL=mysql://tit_server:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
     # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#depends-on
