@@ -16,6 +16,11 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./data/mysql:/var/lib/mysql
+      # https://tech-blog.rakus.co.jp/entry/20200826/docker#解決法2ユーザ情報の書かれたファイルを読み込み専用でマウントする
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+    # https://tech-blog.rakus.co.jp/entry/20200826/docker#解決法2ユーザ情報の書かれたファイルを読み込み専用でマウントする
+    user: ${OS_UID}:${OS_GID}
     # https://docs.docker.jp/compose/compose-file/compose-file-v3.html#healthcheck
     healthcheck:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
