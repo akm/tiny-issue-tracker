@@ -14,8 +14,6 @@
 		"envs": [
 			{ "name": "APP_NAME", "value": "tiny-issue-tracker" },
 			{ "name": "APP_VERSION", "value": "0.0.4" },
-			{ "name": "OS_UID", "type": "uid" },
-			{ "name": "OS_GID", "type": "gid" },
 			{
 				"name": "MYSQL_ROOT_PASSWORD",
 				"type": "MysqlPassword",
